@@ -1,40 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using SimpleORM.Queries;
 
 namespace SimpleORM
 {
+    public delegate object ColumnsFunc<in T>(T t);
+    public delegate bool QueryFunc<in T>(T t);
+    public delegate TTarget SingleTarget<in TContainer, out TTarget>(TContainer container);
+    public delegate IList<TTarget> CollectionTarget<in TContainer, TTarget>(TContainer container);
+    public delegate bool Join<in TContainer, in TTarget>(TContainer container, TTarget target);
+
     public interface IQueryBuilder
     {
-        IQuerySingle<T> GetSingle<T>(Func<T, bool> query);
+        IQuerySingle<T> Get<T>(Func<T, bool> query, Func<IList<T>> columns = null, bool throwIfNotExists = true);
 
-        IQuerySingleOrDefault<T> GetSingleOrDefault<T>(Func<T, bool> query);
-
-        IQueryCollection<T> GetCollection<T>(Func<T, bool> query);
-
-        IQueryCollectionThrough<TTarget, TThrough> GetCollection<TTarget, TThrough>(
-            Func<TTarget, TThrough, bool> through, 
-            Func<TTarget, TThrough, bool> query);
+        IQueryCollection<T> Collect<T>(Func<T, bool> query = null, ColumnsFunc<T> columns = null);
         
-        ILoadSingle<TContainer, TTarget> LoadSingle<TContainer, TTarget>(
-            IList<TContainer> items, 
-            Func<TContainer, TTarget> target, 
-            Func<TContainer, TTarget, bool> query);
+        ICollectionQueryBuilder<T> ForEach<T>(IList<T> items);
+    }
 
-        ILoadSingleOrDefault<TContainer, TTarget> LoadSingleOrDefault<TContainer, TTarget>(
-            IList<TContainer> items, 
-            Func<TContainer, TTarget> target, 
-            Func<TContainer, TTarget, bool> query);
+    public interface ICollectionQueryBuilder<T>
+    {
+        ILoadSingle<T, TTarget> Load<TTarget>(
+            SingleTarget<T, TTarget> target,
+            Join<T, TTarget> join,
+            ColumnsFunc<TTarget> columns = null,
+            bool throwIfNotExists = true);
 
-        ILoadCollection<TContainer, TTarget> LoadCollection<TContainer, TTarget>(
-            IList<TContainer> items, 
-            Func<TContainer, IList<TTarget>> target, 
-            Func<TContainer, TTarget, bool> query);
+        ILoadSubCollection<T, TTarget> Load<TTarget>(
+            CollectionTarget<T, TTarget> target,
+            Join<T, TTarget> join,
+            ColumnsFunc<TTarget> columns = null);
 
-        ILoadCollectionThrough<TContainer, TTarget, TThrough> LoadCollection<TContainer, TTarget, TThrough>(
-            IList<TContainer> items,
-            Func<TContainer, IList<TTarget>> target,
-            Func<TContainer, TTarget, TThrough, bool> through,
-            Func<TTarget, bool> query = null);
+        IThrough<T, TTarget> Load<TTarget>(
+            CollectionTarget<T, TTarget> target,
+            QueryFunc<TTarget> query,
+            ColumnsFunc<TTarget> columns = null);
+
+        IThrough<T, TTarget> Load<TTarget>(
+            CollectionTarget<T, TTarget> target,
+            ColumnsFunc<TTarget> columns = null);
     }
 }

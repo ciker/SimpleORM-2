@@ -8,12 +8,8 @@ namespace SimpleORM
     public class Connection : IConnection
     {
         public IDbConnection NativeConnection { get; private set; }
-        public T Get<T>(IQuerySingle<T> query)
-        {
-            throw new NotImplementedException();
-        }
 
-        public T Get<T>(IQuerySingleOrDefault<T> query)
+        public T Get<T>(IQuerySingle<T> query)
         {
             throw new NotImplementedException();
         }
@@ -23,17 +19,22 @@ namespace SimpleORM
             throw new NotImplementedException();
         }
 
-        public void Load<T1, T2>(IList<T1> items, ILoadSingle<T1, T2> query)
+        public IList<TTarget> Get<TTarget, TThrough>(IQueryCollection<TTarget, TThrough> query)
         {
             throw new NotImplementedException();
         }
 
-        public void Load<T1, T2>(IList<T1> items, ILoadSingleOrDefault<T1, T2> query)
+        public void ForEach<TContainer, TTarget>(IList<TContainer> items, ILoadSingle<TContainer, TTarget> query)
         {
             throw new NotImplementedException();
         }
 
-        public void LoadCollection<T1, T2>(IList<T1> items, ILoadCollection<T1, T2> query)
+        public void ForEach<TContainer, TTarget>(IList<TContainer> items, ILoadSubCollection<TContainer, TTarget> query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ForEach<TContainer, TTarget, TThrough>(IList<TContainer> items, ILoadSubCollection<TContainer, TTarget, TThrough> query)
         {
             throw new NotImplementedException();
         }

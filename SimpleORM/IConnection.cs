@@ -9,19 +9,15 @@ namespace SimpleORM
         IDbConnection NativeConnection { get; }
 
         T Get<T>(IQuerySingle<T> query);
-        
-        T Get<T>(IQuerySingleOrDefault<T> query);
-        
+                
         IList<T> Get<T>(IQueryCollection<T> query);
 
-        IList<TTarget> Get<TTarget, TThrough>(IQueryCollectionThrough<TTarget, TThrough> query);
+        IList<TTarget> Get<TTarget, TThrough>(IQueryCollection<TTarget, TThrough> query);
                 
-        void Load<TContainer, TTarget>(IList<TContainer> items, ILoadSingle<TContainer, TTarget> query);
+        void ForEach<TContainer, TTarget>(IList<TContainer> items, ILoadSingle<TContainer, TTarget> query);
 
-        void Load<TContainer, TTarget>(IList<TContainer> items, ILoadSingleOrDefault<TContainer, TTarget> query);
-        
-        void LoadCollection<TContainer, TTarget>(IList<TContainer> items, ILoadCollection<TContainer, TTarget> query);
-        
-        void LoadCollection<TContainer, TTarget, TThrough>(IList<TContainer> items, ILoadCollectionThrough<TContainer, TTarget, TThrough> query);
+        void ForEach<TContainer, TTarget>(IList<TContainer> items, ILoadSubCollection<TContainer, TTarget> query);
+
+        void ForEach<TContainer, TTarget, TThrough>(IList<TContainer> items, ILoadSubCollection<TContainer, TTarget, TThrough> query);
     }
 }

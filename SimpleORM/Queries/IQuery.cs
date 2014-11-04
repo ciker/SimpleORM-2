@@ -1,4 +1,6 @@
-﻿namespace SimpleORM.Queries
+﻿using System;
+
+namespace SimpleORM.Queries
 {
     public interface IQuery
     {
@@ -10,17 +12,12 @@
         
     }
 
-    public interface IQuerySingleOrDefault<T>
-    {
-        
-    }
-
     public interface IQueryCollection<T>
     {
-        
+        IQueryCollection<T, TThrough> Through<TThrough>(Func<T, TThrough, bool> through, Func<TThrough, bool> query);
     }
 
-    public interface IQueryCollectionThrough<TTarget, TThrough>
+    public interface IQueryCollection<TTarget, TThrough>
     {
         
     }
@@ -30,17 +27,16 @@
         
     }
 
-    public interface ILoadSingleOrDefault<TContainer, TTarget>
+    public interface ILoadSubCollection<TContainer, TTarget>
     {
-        
     }
 
-    public interface ILoadCollection<TContainer, TTarget>
+    public interface IThrough<TContainer, TTarget>
     {
-        
+        ILoadSubCollection<TContainer, TTarget, TThrough> Through<TThrough>(Func<TContainer, TTarget, TThrough, bool> through);
     }
 
-    public interface ILoadCollectionThrough<TContainer, TTarget, TThrough>
+    public interface ILoadSubCollection<TContainer, TTarget, TThrough>
     {
         
     }
