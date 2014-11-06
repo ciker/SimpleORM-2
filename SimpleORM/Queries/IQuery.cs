@@ -14,7 +14,7 @@ namespace SimpleORM.Queries
 
     public interface IQueryCollection<T>
     {
-        IQueryCollection<T, TThrough> Through<TThrough>(Func<T, TThrough, bool> through, Func<TThrough, bool> query);
+        IQueryCollection<T, TThrough> Through<TThrough>(Func<T, TThrough, bool> through, QueryFunc<TThrough> query);
     }
 
     public interface IQueryCollection<TTarget, TThrough>

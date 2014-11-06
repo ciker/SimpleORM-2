@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using SimpleORM;
 
 namespace Test
@@ -75,7 +74,7 @@ namespace Test
 
             var queryEvent2 = queryBuilder.Get<Event>(e => e.Id == Parameter.Next, throwIfNotExists: false);
 
-            //Load only outcome states and primary key
+            //Load only outcome state column and primary key
             var queryOutcomes = queryBuilder.Collect<Outcome>(o => o.EventId == Parameter.Next, o => o.State);
 
             var outcomes = new List<Outcome>();

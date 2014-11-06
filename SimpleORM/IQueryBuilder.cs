@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using SimpleORM.Queries;
 
 namespace SimpleORM
@@ -13,9 +12,9 @@ namespace SimpleORM
 
     public interface IQueryBuilder
     {
-        IQuerySingle<T> Get<T>(Func<T, bool> query, Func<IList<T>> columns = null, bool throwIfNotExists = true);
+        IQuerySingle<T> Get<T>(QueryFunc<T> query, Func<IList<T>> columns = null, bool throwIfNotExists = true);
 
-        IQueryCollection<T> Collect<T>(Func<T, bool> query = null, ColumnsFunc<T> columns = null);
+        IQueryCollection<T> Collect<T>(QueryFunc<T> query = null, ColumnsFunc<T> columns = null);
         
         ICollectionQueryBuilder<T> ForEach<T>(IList<T> items);
     }

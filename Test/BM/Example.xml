@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+  <class class="Event">
+    <properties>
+      <property name="Id" column="id" type="long">
+        <sequence>seq_name</sequence>
+      </property>
+      
+      <discriminator column="type" type="long" />
+
+      <property name="CreationTimeAndZone" column="creation_time_and_zone" type="DateTime" />
+
+      <property name="Value" column="value" type="string" />
+      
+      <property name="Bool" column="bool" type="YesNo" />
+      
+      <property name="QueryColumn" column="bool" type="YesNo" update="false" insert="false" />
+      
+      <version name="Version" column="version" />
+    </properties>
+
+    <key>
+      <property name="Id" />
+      <property name="CreationTimeAndZone" />
+    </key>
+  </class>
+</mapping>
