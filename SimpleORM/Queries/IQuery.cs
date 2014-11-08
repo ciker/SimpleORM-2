@@ -14,7 +14,7 @@ namespace SimpleORM.Queries
 
     public interface IQueryCollection<T>
     {
-        IQueryCollection<T, TThrough> Through<TThrough>(Func<T, TThrough, bool> through, QueryFunc<TThrough> query);
+        IQueryCollection<T, TThrough> Through<TThrough>(ThroughFunc<T, TThrough> through, QueryFunc<TThrough> query);
     }
 
     public interface IQueryCollection<TTarget, TThrough>
@@ -33,7 +33,7 @@ namespace SimpleORM.Queries
 
     public interface IThrough<TContainer, TTarget>
     {
-        ILoadSubCollection<TContainer, TTarget, TThrough> Through<TThrough>(Func<TContainer, TTarget, TThrough, bool> through);
+        ILoadSubCollection<TContainer, TTarget, TThrough> Through<TThrough>(ThroughFunc<TContainer, TThrough> through1, ThroughFunc<TTarget, TThrough> through2);
     }
 
     public interface ILoadSubCollection<TContainer, TTarget, TThrough>

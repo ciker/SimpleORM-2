@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <mapping>
-  <class class="SomeView">
+  <class class="SomeView" view="true">
     <property name="Property1" column="property1" type="long" />
       
     <property name="Value" column="value" type="string" />

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SimpleORM;
 
 namespace Test
@@ -55,9 +54,9 @@ namespace Test
 
     public class TicketBet
     {
-        public static Func<Bet, TicketBet, bool> TicketBets = (b, tb) => b.Id == tb.BetId;
-
-        public static Func<Ticket, Bet, TicketBet, bool> TicketsBets = (t, b, tb) => t.Id == tb.TicketId && tb.BetId == b.Id;
+        public static ThroughFunc<Bet, TicketBet> TicketBets = (b, tb) => b.Id == tb.BetId;
+        
+        public static ThroughFunc<Ticket, TicketBet> BetTickets = (t, tb) => t.Id == tb.TicketId;
 
         public long TicketId { get; set; }
 
@@ -94,10 +93,10 @@ namespace Test
             var tickets = new List<Ticket>();
 
             //Load all bets through ticket-bet into every ticket from tickets collection
-            var queryTicketsBets = queryBuilder.ForEach(tickets).Load(t => t.Bets).Through(TicketBet.TicketsBets);
+            var queryTicketsBets = queryBuilder.ForEach(tickets).Load(t => t.Bets).Through(TicketBet.BetTickets, TicketBet.TicketBets);
 
             //Load bets through ticket-bet into every ticket from tickets  collection with expression
-            var queryTicketsBetsCondition = queryBuilder.ForEach(tickets).Load(t => t.Bets, b => b.Amount > Parameter.Next).Through(TicketBet.TicketsBets);
+            var queryTicketsBetsCondition = queryBuilder.ForEach(tickets).Load(t => t.Bets, b => b.Amount > Parameter.Next).Through(TicketBet.BetTickets, TicketBet.TicketBets);
         }
     }
 }

@@ -9,66 +9,104 @@ namespace SimpleORM
             get { return new Parameter(); }
         }
 
+        public Type Type { get; private set; }
+
         internal string Name;
         internal int Index;
 
-        internal Parameter()
+        public static implicit operator Parameter(Type x)
         {
+            return new Parameter { Type = typeof(Type) };
         }
 
         public static implicit operator Parameter(string x)
         {
-            return null;
+            return new Parameter { Type = typeof(string) };
+        }
+
+        public static implicit operator Parameter(char x)
+        {
+            return new Parameter { Type = typeof(char) };
         }
 
         public static implicit operator Parameter(DateTime x)
         {
-            return null;
+            return new Parameter { Type = typeof(DateTime) };
         }
 
         public static implicit operator Parameter(bool x)
         {
-            return null;
+            return new Parameter { Type = typeof(bool) };
         }
 
         public static implicit operator Parameter(int x)
         {
-            return null;
+            return new Parameter { Type = typeof(int) };
         }
 
         public static implicit operator Parameter(long x)
         {
-            return null;
+            return new Parameter { Type = typeof(long) };
         }
 
         public static implicit operator Parameter(float x)
         {
-            return null;
+            return new Parameter { Type = typeof(float) };
+        }
+
+        public static implicit operator Parameter(double x)
+        {
+            return new Parameter { Type = typeof(double) };
+        }
+
+        public static implicit operator Parameter(decimal x)
+        {
+            return new Parameter { Type = typeof(decimal) };
+        }
+
+        public static implicit operator Parameter(Enum x)
+        {
+            return new Parameter { Type = typeof(Enum) };
+        }
+
+        public static implicit operator Parameter(char? x)
+        {
+            return new Parameter { Type = typeof(char?) };
         }
 
         public static implicit operator Parameter(DateTime? x)
         {
-            return null;
+            return new Parameter { Type = typeof(DateTime?) };
         }
 
         public static implicit operator Parameter(bool? x)
         {
-            return null;
+            return new Parameter { Type = typeof(bool?) };
         }
 
         public static implicit operator Parameter(int? x)
         {
-            return null;
+            return new Parameter { Type = typeof(int?) };
         }
 
         public static implicit operator Parameter(long? x)
         {
-            return null;
+            return new Parameter { Type = typeof(long?) };
         }
 
         public static implicit operator Parameter(float? x)
         {
-            return null;
+            return new Parameter { Type = typeof(float?) };
+        }
+
+        public static implicit operator Parameter(double? x)
+        {
+            return new Parameter { Type = typeof(double?) };
+        }
+
+        public static implicit operator Parameter(decimal? x)
+        {
+            return new Parameter { Type = typeof(decimal?) };
         }
 
         public static bool operator ==(Parameter p1, Parameter p2)

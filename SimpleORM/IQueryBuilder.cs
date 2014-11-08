@@ -6,6 +6,7 @@ namespace SimpleORM
 {
     public delegate object ColumnsFunc<in T>(T t);
     public delegate bool QueryFunc<in T>(T t);
+    public delegate bool ThroughFunc<in TTarget, in TThrough>(TTarget target, TThrough through);
     public delegate TTarget SingleTarget<in TContainer, out TTarget>(TContainer container);
     public delegate IList<TTarget> CollectionTarget<in TContainer, TTarget>(TContainer container);
     public delegate bool Join<in TContainer, in TTarget>(TContainer container, TTarget target);
