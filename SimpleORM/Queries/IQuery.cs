@@ -1,15 +1,10 @@
-﻿using System;
+﻿using SimpleORM.Statements;
 
 namespace SimpleORM.Queries
 {
-    public interface IQuery
-    {
-        string SQL { get; }
-    }
-
     public interface IQuerySingle<T>
     {
-        
+        ISelectStatement Statement { get; }
     }
 
     public interface IQueryCollection<T>

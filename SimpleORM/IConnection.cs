@@ -8,6 +8,8 @@ namespace SimpleORM
     {
         IDbConnection NativeConnection { get; }
 
+        IDialect Dialect { get; }
+
         T Get<T>(IQuerySingle<T> query);
                 
         IList<T> Get<T>(IQueryCollection<T> query);

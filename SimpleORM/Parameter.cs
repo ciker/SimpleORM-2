@@ -39,6 +39,16 @@ namespace SimpleORM
             return new Parameter { Type = typeof(bool) };
         }
 
+        public static implicit operator Parameter(byte x)
+        {
+            return new Parameter { Type = typeof(byte) };
+        }
+
+        public static implicit operator Parameter(short x)
+        {
+            return new Parameter { Type = typeof(short) };
+        }
+
         public static implicit operator Parameter(int x)
         {
             return new Parameter { Type = typeof(int) };
@@ -82,6 +92,16 @@ namespace SimpleORM
         public static implicit operator Parameter(bool? x)
         {
             return new Parameter { Type = typeof(bool?) };
+        }
+
+        public static implicit operator Parameter(byte? x)
+        {
+            return new Parameter { Type = typeof(byte?) };
+        }
+
+        public static implicit operator Parameter(short? x)
+        {
+            return new Parameter { Type = typeof(short?) };
         }
 
         public static implicit operator Parameter(int? x)

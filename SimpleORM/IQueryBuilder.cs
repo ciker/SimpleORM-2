@@ -17,7 +17,7 @@ namespace SimpleORM
 
         IQueryCollection<T> Collect<T>(QueryFunc<T> query = null, ColumnsFunc<T> columns = null);
         
-        ICollectionQueryBuilder<T> ForEach<T>(IList<T> items);
+        ICollectionQueryBuilder<T> ForEach<T>();
     }
 
     public interface ICollectionQueryBuilder<T>
