@@ -77,8 +77,6 @@ namespace Test
             //Load only outcome state column and primary key
             var queryOutcomes = queryBuilder.Collect<Outcome>(o => o.EventId == Parameter.Next, o => o.State);
 
-            var outcomes = new List<Outcome>();
-
             var loadEvent = queryBuilder.ForEach<Outcome>().Load(o => o.Event, (o, e) => o.EventId == e.Id);
 
             //Load factors (only primary key, value and raw_value columns) for every outcome
@@ -87,11 +85,8 @@ namespace Test
             //Getting all bets through ticket-bet table
             var queryTicketBets1 = queryBuilder.Collect<Bet>().Through(TicketBet.TicketBets, t => t.TicketId == Parameter.Next);
 
-
             //Getting bets through ticket-bet table with expression
             var queryTicketBets2 = queryBuilder.Collect<Bet>(b => b.Amount > Parameter.Next).Through(TicketBet.TicketBets, t => t.TicketId == Parameter.Next);
-
-            var tickets = new List<Ticket>();
 
             //Load all bets through ticket-bet into every ticket from tickets collection
             var queryTicketsBets = queryBuilder.ForEach<Ticket>().Load(t => t.Bets).Through(TicketBet.BetTickets, TicketBet.TicketBets);

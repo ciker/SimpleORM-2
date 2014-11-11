@@ -55,8 +55,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BM\Oracle\ObjectTable.xml" />
+    <Content Include="BM\Oracle\Object.xml" />
     <Content Include="BM\View.xml" />
-    <Content Include="BM\Example.xml" />
+    <Content Include="BM\Table.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

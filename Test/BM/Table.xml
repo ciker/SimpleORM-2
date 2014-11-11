@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<table-mapping>
+  <class name="Event" table="Event" schema="bigbet" >
+    <property name="Id" column="id" type="long">
+      <generator>
+        <sequence name="seq_name" />
+      </generator>
+    </property>
+
+    <property name="CreationTimeAndZone" column="creation_time_and_zone" type="DateTime">
+      <generator>
+        <db-assigned />
+      </generator>
+    </property>
+
+    <discriminator column="type" type="long" length="11" />
+
+    <property name="StringValue" column="value" type="string" length="11" />
+
+    <property name="BoolProperty" column="bool" type="YesNo" update="false" insert="false" />
+
+    <version name="Version" column="version" />
+
+    <subclass name="RegularEvent" discriminator-value="1">
+      <join table="regular_event">
+        <column name="event_id" join-table="event" join-column="id" />
+        <column name="event_time_and_zone" join-table="event" join-column="creation_time_and_zone" />
+      </join>
+
+      <property name="StringValue" column="value" type="string" />
+    </subclass>
+
+    <subclass name="LotteryEvent" discriminator-value="2">
+      <join table="lottery_event">
+        <column name="event_id" join-table="event" join-column="id" />
+        <column name="event_time_and_zone" join-table="event" join-column="creation_time_and_zone" />
+      </join>
+
+      <property name="StringValue" column="value" type="string" />
+    </subclass>
+
+    <key>
+      <property name="Id" />
+      <property name="CreationTimeAndZone" />
+    </key>
+  </class>
+</table-mapping>

@@ -1,0 +1,13 @@
+﻿<mapping>
+  <object name="factor_object" schema="bigbet" class="FactorObject">
+    <property name="Id" member="id" />
+    
+    <property name="OutcomeId" member="outcome_id" />
+    
+    <property name="Value" member="value" />
+    
+    <property name="State" member="state" />
+    
+    <property name="Version" member="version" />
+  </object>
+</mapping>

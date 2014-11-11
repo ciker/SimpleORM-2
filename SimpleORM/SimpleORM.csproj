@@ -39,7 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationDocument\IDbType.cs" />
+    <Compile Include="ConfigurationDocument\IGenerator.cs" />
+    <Compile Include="ConfigurationDocument\IMappingDocument.cs" />
+    <Compile Include="ConfigurationDocument\ITableMapping.cs" />
+    <Compile Include="ConfigurationDocument\IViewMapping.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="ITableAliasGenerator.cs" />
     <Compile Include="Queries\QuerySingle.cs" />
     <Compile Include="Statements\Expressions.cs" />
     <Compile Include="Statements\ISelectStatement.cs" />
@@ -51,6 +57,7 @@
     <Compile Include="IQueryBuilder.cs" />
     <Compile Include="QueryBuilder\QueryBuilder.cs" />
     <Compile Include="Statements\SelectStatement.cs" />
+    <Compile Include="TableAliasGenerators\TableAliasGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dialects\" />

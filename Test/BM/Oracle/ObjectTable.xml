@@ -1,0 +1,3 @@
+﻿<mapping>
+  <object-table name="factor_object_table" schema="bigbet" class="FactorObjectTable" object-class="FactorObject" />
+</mapping>

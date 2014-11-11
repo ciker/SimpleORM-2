@@ -8,7 +8,7 @@ namespace SimpleORM.QueryBuilder
     {
         public IQuerySingle<T> Get<T>(QueryFunc<T> query, Func<IList<T>> columns = null, bool throwIfNotExists = true)
         {
-            throw new NotImplementedException();
+            return new QuerySingle<T>();
         }
 
         public IQueryCollection<T> Collect<T>(QueryFunc<T> query = null, ColumnsFunc<T> columns = null)
@@ -31,12 +31,12 @@ namespace SimpleORM.QueryBuilder
             Type = typeof(T);
         }
 
-        public ILoadSingle<T, TTarget> Load<TTarget>(SingleTarget<T, TTarget> target, Join<T, TTarget> @join, ColumnsFunc<TTarget> columns = null, bool throwIfNotExists = true)
+        public ILoadSingle<T, TTarget> Load<TTarget>(SingleTarget<T, TTarget> target, Join<T, TTarget> join, ColumnsFunc<TTarget> columns = null, bool throwIfNotExists = true)
         {
             throw new NotImplementedException();
         }
 
-        public ILoadSubCollection<T, TTarget> Load<TTarget>(CollectionTarget<T, TTarget> target, Join<T, TTarget> @join, ColumnsFunc<TTarget> columns = null)
+        public ILoadSubCollection<T, TTarget> Load<TTarget>(CollectionTarget<T, TTarget> target, Join<T, TTarget> join, ColumnsFunc<TTarget> columns = null)
         {
             throw new NotImplementedException();
         }

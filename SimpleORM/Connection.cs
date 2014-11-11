@@ -8,6 +8,8 @@ namespace SimpleORM
     public class Connection : IConnection
     {
         public IDbConnection NativeConnection { get; private set; }
+        
+        public IDialect Dialect { get; private set; }
 
         public T Get<T>(IQuerySingle<T> query)
         {

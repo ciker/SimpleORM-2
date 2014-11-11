@@ -24,8 +24,8 @@ namespace SimpleORM.Statements
 
     public interface ITableIdentifier
     {
-        string Alias { get; }
-
+        string TableName { get; }
+        
         Type ClassType { get; set; }
     }
 

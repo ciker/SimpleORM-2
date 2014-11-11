@@ -15,7 +15,7 @@ namespace SimpleORM.Statements
 
     public class TableIdentifier : ITableIdentifier
     {
-        public string Alias { get; private set; }
+        public string TableName { get; internal set; }
 
         public Type ClassType { get; set; }
     }
