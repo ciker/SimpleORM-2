@@ -1,7 +1,12 @@
 ﻿using System;
 
-namespace SimpleORM.ConfigurationDocument
+namespace SimpleORM.Mappings
 {
+    public interface IHasGenerator
+    {
+        IGenerator Generator { get; }
+    }
+
     public interface IGenerator
     {
         Type Type { get; }

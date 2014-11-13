@@ -39,11 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationDocument\IDbType.cs" />
-    <Compile Include="ConfigurationDocument\IGenerator.cs" />
-    <Compile Include="ConfigurationDocument\IMappingDocument.cs" />
-    <Compile Include="ConfigurationDocument\ITableMapping.cs" />
-    <Compile Include="ConfigurationDocument\IViewMapping.cs" />
+    <Compile Include="Mappings\IDbType.cs" />
+    <Compile Include="Mappings\IGenerator.cs" />
+    <Compile Include="Mappings\IObjectMapping.cs" />
+    <Compile Include="Mappings\IMapping.cs" />
+    <Compile Include="Mappings\IPropertyMapping.cs" />
+    <Compile Include="Mappings\ITableMapping.cs" />
+    <Compile Include="Mappings\IViewMapping.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="ITableAliasGenerator.cs" />
     <Compile Include="Queries\QuerySingle.cs" />

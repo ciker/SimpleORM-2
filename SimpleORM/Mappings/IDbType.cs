@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SimpleORM.ConfigurationDocument
+namespace SimpleORM.Mappings
 {
     public interface ITypeMapping
     {
