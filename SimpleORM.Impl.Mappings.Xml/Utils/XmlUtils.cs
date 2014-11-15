@@ -6,7 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace SimpleORM.Utils
+namespace SimpleORM.Impl.Mappings.Xml.Utils
 {
     internal static class XmlUtils
     {

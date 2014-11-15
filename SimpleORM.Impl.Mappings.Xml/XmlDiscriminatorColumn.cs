@@ -11,6 +11,6 @@ namespace SimpleORM.Impl.Mappings.Xml
 
         public string Column { get; private set; }
 
-        public ITypeMapping TypeMapping { get; private set; }
+        public IHasType HasType { get; private set; }
     }
 }

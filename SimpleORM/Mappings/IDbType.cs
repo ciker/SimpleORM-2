@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace SimpleORM.Mappings
 {
-    public interface ITypeMapping
+    public interface IHasType
     {
-        string Name { get; }
+        /// <summary>
+        /// CLR Type
+        /// </summary>
+        Type Type { get; }
 
-        IList<Type> SupportedTypes { get; }
+        string DbType { get; }
 
-        int DbType { get; }
-
-        int Length { get; }
+        int? Length { get; }
     }
 }

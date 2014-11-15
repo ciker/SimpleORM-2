@@ -6,8 +6,8 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using log4net;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
+using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
-using SimpleORM.Utils;
 
 namespace SimpleORM.Impl.Mappings.Xml
 {

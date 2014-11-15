@@ -21,7 +21,7 @@ namespace SimpleORM.Mappings
     {
         string Column { get; }
 
-        ITypeMapping TypeMapping { get; }
+        IHasType HasType { get; }
     }
 
     public interface ISubClassMapping : IObjectMapping

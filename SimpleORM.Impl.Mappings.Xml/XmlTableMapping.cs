@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
+using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
-using SimpleORM.Utils;
 
 namespace SimpleORM.Impl.Mappings.Xml
 {
@@ -96,7 +96,7 @@ namespace SimpleORM.Impl.Mappings.Xml
             Update = XmlUtils.GetAsBoolean(xTableProperty, "@insert", true);
         }
 
-        public ITypeMapping TypeMapping { get; private set; }
+        public IHasType HasType { get; private set; }
 
         public string Name { get; private set; }
 
@@ -107,5 +107,11 @@ namespace SimpleORM.Impl.Mappings.Xml
         public bool Insert { get; private set; }
 
         public bool Update { get; private set; }
+
+        public Type Type { get; private set; }
+
+        public string DbType { get; private set; }
+
+        public int? Length { get; private set; }
     }
 }
