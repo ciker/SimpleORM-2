@@ -30,7 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -39,6 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="IMappingBuilder.cs" />
+    <Compile Include="Impl\Mappings\XmlViewMapping.cs" />
+    <Compile Include="Impl\Mappings\Xml\Exceptions\DocumentLoadException.cs" />
+    <Compile Include="Impl\Mappings\Xml\Exceptions\DocumentParseException.cs" />
+    <Compile Include="Impl\Mappings\Xml\SubClassMapping.cs" />
+    <Compile Include="Impl\Mappings\Xml\XmlGenerator.cs" />
+    <Compile Include="Impl\Mappings\Xml\XmlVersionProperty.cs" />
+    <Compile Include="Impl\Mappings\Xml\XmlDiscriminatorColumn.cs" />
+    <Compile Include="Impl\Mappings\Xml\XmlMappingBuilder.cs" />
+    <Compile Include="Impl\Mappings\Xml\XmlTableMapping.cs" />
+    <Compile Include="Initializer.cs" />
     <Compile Include="Mappings\IDbType.cs" />
     <Compile Include="Mappings\IGenerator.cs" />
     <Compile Include="Mappings\IObjectMapping.cs" />
@@ -60,9 +76,13 @@
     <Compile Include="QueryBuilder\QueryBuilder.cs" />
     <Compile Include="Statements\SelectStatement.cs" />
     <Compile Include="TableAliasGenerators\TableAliasGenerator.cs" />
+    <Compile Include="Utils\XmlUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dialects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

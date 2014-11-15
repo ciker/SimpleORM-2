@@ -27,6 +27,8 @@ namespace SimpleORM.Mappings
     public interface ISubClassMapping : IObjectMapping
     {
         object DiscriminatorValue { get; }
+
+        ISubClassJoin Join { get; }
     }
 
     public interface ISubClassJoin

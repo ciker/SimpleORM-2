@@ -13,11 +13,13 @@ namespace SimpleORM.Mappings
 
     public interface IHasPrimaryKey
     {
-        IList<IPropertyMapping> KeyProperties { get; }
+        IList<IPropertyMapping> PrimaryKeyProperties { get; }
     }
 
     public interface IHasVersion
     {
-        IPropertyMapping VersionProperty { get; }
+        IVersionProperty VersionProperty { get; }
     }
+
+    public interface IVersionProperty : IPropertyMapping { }
 }

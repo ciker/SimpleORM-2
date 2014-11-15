@@ -39,9 +39,9 @@
       <property name="StringValue" column="value" type="string" />
     </subclass>
 
-    <key>
+    <primary-key>
       <property name="Id" />
       <property name="CreationTimeAndZone" />
-    </key>
+    </primary-key>
   </class>
 </table-mapping>
