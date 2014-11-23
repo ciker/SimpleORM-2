@@ -1,7 +1,7 @@
 ﻿using System;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
 
-namespace SimpleORM.Impl.Mappings.Xml.Utils
+namespace SimpleORM.Impl.Mappings.Xml.Factories
 {
     internal class PropertyTypeConverterFactory
     {

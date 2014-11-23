@@ -1,4 +1,4 @@
-﻿<mapping>
+﻿<object-mapping>
   <object name="factor_object" schema="bigbet" class="FactorObject">
     <property name="Id" member="id" />
     
@@ -10,4 +10,4 @@
     
     <property name="Version" member="version" />
   </object>
-</mapping>
+</object-mapping>

@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Xml.Linq;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
+using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 

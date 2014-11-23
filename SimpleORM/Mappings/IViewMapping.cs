@@ -1,6 +1,6 @@
 ﻿namespace SimpleORM.Mappings
 {
-    public interface IViewMapping : IMapping, IObjectMapping, IHasSubClasses, IHasDiscriminatorColumn { }
+    public interface IViewMapping : IMapping, IRootObjectMapping { }
 
     public interface IViewPropertyMapping : IPropertyMapping { }
 }

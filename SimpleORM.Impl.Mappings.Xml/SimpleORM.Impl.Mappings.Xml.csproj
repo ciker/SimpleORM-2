@@ -51,10 +51,11 @@
     <Compile Include="Exceptions\DocumentParseException.cs" />
     <Compile Include="Exceptions\ParseValueException.cs" />
     <Compile Include="Exceptions\ParseTypeException.cs" />
+    <Compile Include="Factories\MappingFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubClassMapping.cs" />
-    <Compile Include="Utils\GeneratorFactory.cs" />
-    <Compile Include="Utils\PropertyTypeConverterFactory.cs" />
+    <Compile Include="Factories\GeneratorFactory.cs" />
+    <Compile Include="Factories\PropertyTypeConverterFactory.cs" />
     <Compile Include="Utils\TypeUtils.cs" />
     <Compile Include="Utils\XmlUtils.cs" />
     <Compile Include="XmlDiscriminatorColumn.cs" />
@@ -73,6 +74,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

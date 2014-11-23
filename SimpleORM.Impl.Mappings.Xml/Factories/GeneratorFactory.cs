@@ -1,8 +1,9 @@
 ﻿using System.Xml.Linq;
 using SimpleORM.Generators;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
+using SimpleORM.Impl.Mappings.Xml.Utils;
 
-namespace SimpleORM.Impl.Mappings.Xml.Utils
+namespace SimpleORM.Impl.Mappings.Xml.Factories
 {
     internal static class GeneratorFactory
     {

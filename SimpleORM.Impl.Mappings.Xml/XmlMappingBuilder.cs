@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -6,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using log4net;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
+using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
@@ -14,6 +16,8 @@ namespace SimpleORM.Impl.Mappings.Xml
     public class XmlMappingBuilder : IMappingBuilder
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(XmlMappingBuilder));
+
+        private readonly IDictionary<Type, IRootObjectMapping> _tableOrViewMappings = new Dictionary<Type, IRootObjectMapping>();
 
         public void Configure(XElement configuration)
         {
@@ -47,18 +51,34 @@ namespace SimpleORM.Impl.Mappings.Xml
                     throw new DocumentLoadException("Cannot load resource '{0}', stream is null", resourceName);
 
                 var streamReader = new StreamReader(resourceStream);
-                LoadMapping(streamReader.ReadToEnd());
+                try
+                {
+                    RegisterMapping(streamReader.ReadToEnd());
+                }
+                catch (Exception ex)
+                {
+                    throw new DocumentParseException(string.Format("Cannot load '{0}'", resourceName), ex);
+                }
             }
         }
 
-        private void LoadMapping(string xml)
+        private void RegisterMapping(string xml)
         {
-            
+            var xMapping = XElement.Parse(xml);
+
+            var mapping = MappingFactory.CreateMapping(xMapping);
+
+            if (mapping is ITableMapping || mapping is IViewMapping)
+            {
+                var rootObjectMapping = mapping as IRootObjectMapping;
+                _tableOrViewMappings[rootObjectMapping.Type] = rootObjectMapping;
+            }
+
         }
 
-        public bool TryGet(Type type, out IMapping mapping)
+        public bool TryGetTableOrView(Type type, out IRootObjectMapping mapping)
         {
-            throw new NotImplementedException();
+            return _tableOrViewMappings.TryGetValue(type, out mapping);
         }
     }
 }

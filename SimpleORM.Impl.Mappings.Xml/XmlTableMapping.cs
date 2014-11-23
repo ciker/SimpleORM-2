@@ -10,10 +10,8 @@ namespace SimpleORM.Impl.Mappings.Xml
 {
     sealed class XmlTableMapping : ITableMapping
     {
-        public XmlTableMapping(string classXml)
+        public XmlTableMapping(XElement xClass)
         {
-            var xClass = XElement.Parse(classXml);
-
             Schema = XmlUtils.GetAsString(xClass, "@schema");
             Name = XmlUtils.GetAsString(xClass, "@table");
 

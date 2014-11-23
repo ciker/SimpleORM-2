@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
+using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
@@ -11,10 +12,8 @@ namespace SimpleORM.Impl.Mappings.Xml
 {
     sealed class XmlViewMapping : IViewMapping
     {
-        public XmlViewMapping(string classXml)
+        public XmlViewMapping(XElement xClass)
         {
-            var xClass = XElement.Parse(classXml);
-
             Schema = XmlUtils.GetAsString(xClass, "@schema");
             Name = XmlUtils.GetAsString(xClass, "@table");
 

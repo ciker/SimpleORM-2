@@ -7,7 +7,7 @@ namespace SimpleORM
     public interface IMappingBuilder
     {
         void Configure(XElement configuration);
-        
-        bool TryGet(Type type, out IMapping mapping);
+
+        bool TryGetTableOrView(Type type, out IRootObjectMapping mapping);
     }
 }
