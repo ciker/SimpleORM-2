@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Xml.Linq;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
 using SimpleORM.Impl.Mappings.Xml.Utils;
@@ -23,7 +22,7 @@ namespace SimpleORM.Impl.Mappings.Xml
             Properties = new List<IPropertyMapping>();
             foreach (var xProperty in XmlUtils.Select(xClass, "property"))
             {
-                Properties.Add(new XmlTablePropertyMapping(xProperty));
+                Properties.Add(new XmlTablePropertyMapping(Type, xProperty));
             }
 
             var xDiscriminator = XmlUtils.Single(xClass, "discriminator");
@@ -33,12 +32,12 @@ namespace SimpleORM.Impl.Mappings.Xml
             SubClasses = new List<ISubClassMapping>();
             foreach (var xSubClass in XmlUtils.Select(xClass, "subclass"))
             {
-                SubClasses.Add(new XmlSubClassMapping(xSubClass));
+                SubClasses.Add(new XmlSubClassMapping(this, xSubClass));
             }
 
             var xVersionProperty = XmlUtils.Single(xClass, "version");
             if (xVersionProperty != null)
-                VersionProperty = new XmlVersionProperty(xVersionProperty);
+                VersionProperty = new XmlVersionProperty(this, xVersionProperty);
 
             var xPrimaryKey = XmlUtils.Single(xClass, "primary-key");
             if (xPrimaryKey != null)
@@ -75,43 +74,5 @@ namespace SimpleORM.Impl.Mappings.Xml
         public IVersionProperty VersionProperty { get; private set; }
 
         public IList<IPropertyMapping> PrimaryKeyProperties { get; private set; }
-    }
-
-    sealed class XmlTablePropertyMapping : ITablePropertyMapping
-    {
-        public XmlTablePropertyMapping(XElement xTableProperty)
-        {
-            Name = XmlUtils.GetAsString(xTableProperty, "@name");
-
-            var xGenerator = XmlUtils.Single(xTableProperty, "generator");
-            if (xGenerator != null)
-            {
-                var xGeneratorElement = XmlUtils.Single(xGenerator, "*");
-                var generatorType = xGeneratorElement.Name;
-
-//                Generator = new XmlDiscriminatorColumn(xGenerator);
-            }
-
-            Insert = XmlUtils.GetAsBoolean(xTableProperty, "@insert", true);
-            Update = XmlUtils.GetAsBoolean(xTableProperty, "@insert", true);
-        }
-
-        public IHasType HasType { get; private set; }
-
-        public string Name { get; private set; }
-
-        public MemberInfo Member { get; private set; }
-
-        public IGenerator Generator { get; private set; }
-
-        public bool Insert { get; private set; }
-
-        public bool Update { get; private set; }
-
-        public Type Type { get; private set; }
-
-        public string DbType { get; private set; }
-
-        public int? Length { get; private set; }
     }
 }

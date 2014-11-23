@@ -32,6 +32,20 @@ namespace SimpleORM.Impl.Mappings.Xml.Utils
             return xText != null ? xText.Value : defaultValue;
         }
 
+        public static int GetAsByte(XElement element, string xPath)
+        {
+            var stringValue = GetAsString(element, xPath);
+
+            return byte.Parse(stringValue);
+        }
+
+        public static int GetAsShort(XElement element, string xPath)
+        {
+            var stringValue = GetAsString(element, xPath);
+
+            return short.Parse(stringValue);
+        }
+
         public static int GetAsInt(XElement element, string xPath)
         {
             var stringValue = GetAsString(element, xPath);
@@ -44,20 +58,6 @@ namespace SimpleORM.Impl.Mappings.Xml.Utils
             var stringValue = GetAsString(element, xPath);
 
             return long.Parse(stringValue);
-        }
-
-        public static long? GetAsNullableLong(XElement element, string xPath, long? defaultValue)
-        {
-            var stringValue = GetAsString(element, xPath);
-
-            try
-            {
-                return long.Parse(stringValue);
-            }
-            catch
-            {
-                return defaultValue;
-            }
         }
 
         public static DateTime GetAsDateTime(XElement element, string xPath)
@@ -78,14 +78,21 @@ namespace SimpleORM.Impl.Mappings.Xml.Utils
         {
             var stringValue = GetAsString(element, xPath);
 
-            return Type.GetType(stringValue);
+            return Type.GetType(stringValue, true);
         }
 
-        public static bool GetAsBoolean(XElement element, string xPath, bool defaultValue = default(bool))
+        public static bool GetAsBoolean(XElement element, string xPath)
         {
             var stringValue = GetAsString(element, xPath);
 
             return bool.Parse(stringValue);
+        }
+
+        public static Guid GetAsGuid(XElement element, string xPath)
+        {
+            var stringValue = GetAsString(element, xPath);
+
+            return Guid.Parse(stringValue);
         }
 
         public static IEnumerable<XElement> Select(XElement element, string xPath)
@@ -96,6 +103,11 @@ namespace SimpleORM.Impl.Mappings.Xml.Utils
         public static XElement Single(XElement element, string xPath)
         {
             return element.XPathSelectElement(xPath);
+        }
+
+        public static bool Exists(XElement element, string xPath)
+        {
+            return element.XPathSelectElement(xPath) != null;
         }
     }
 }

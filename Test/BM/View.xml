@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <view-mapping>
   <class name="SomeView" view="v$view" schema="bigbet" >
-    <property name="Property1" column="property1" type="long" />
+    <property name="Property1" column="property1" />
       
-    <property name="Value" column="value" type="string" />
+    <property name="Value" column="value" />
   </class>
 </view-mapping>

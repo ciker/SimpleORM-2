@@ -11,31 +11,29 @@ namespace SimpleORM.Mappings
         Type Type { get; }
 
         IList<IPropertyMapping> Properties { get; }
-
-        IDiscriminatorColumn Discriminator { get; }
-
-        IList<ISubClassMapping> SubClasses { get; }
     }
 
     public interface IDiscriminatorColumn
     {
-        string Column { get; }
+        Type Type { get; }
 
-        IHasType HasType { get; }
+        IPropertyTypeConverter Converter { get; set; }
+
+        string Column { get; }
     }
 
-    public interface ISubClassMapping : IObjectMapping
+    public interface ISubClassMapping : IObjectMapping, IHasSubClasses
     {
         object DiscriminatorValue { get; }
 
         ISubClassJoin Join { get; }
     }
 
-    public interface ISubClassJoin
+    public interface ISubClassJoin 
     {
-        string Schema { get; }
+        string Name { get; }
 
-        string Table { get; }
+        string Schema { get; }
 
         IList<ISubClassJoinColumn> ColumnJoins { get; }
     }

@@ -2,9 +2,9 @@
 
 namespace SimpleORM.Impl.Mappings.Xml.Exceptions
 {
-    class TypeParseException : Exception
+    class ParseTypeException : Exception
     {
-        public TypeParseException(string format, params object[] args)
+        public ParseTypeException(string format, params object[] args)
             : base(string.Format(format, args))
         {
         }

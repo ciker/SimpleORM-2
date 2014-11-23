@@ -2,7 +2,7 @@
 
 namespace SimpleORM.Mappings
 {
-    public interface ITableMapping : IMapping, IObjectMapping, IHasVersion, IHasPrimaryKey { }
+    public interface ITableMapping : IMapping, IObjectMapping, IHasSubClasses, IHasDiscriminatorColumn, IHasVersion, IHasPrimaryKey { }
 
     public interface ITablePropertyMapping : IPropertyMapping, IHasGenerator
     {

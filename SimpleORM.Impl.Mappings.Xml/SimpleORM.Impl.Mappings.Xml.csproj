@@ -35,6 +35,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,15 +49,18 @@
   <ItemGroup>
     <Compile Include="Exceptions\DocumentLoadException.cs" />
     <Compile Include="Exceptions\DocumentParseException.cs" />
-    <Compile Include="Exceptions\TypeParseException.cs" />
+    <Compile Include="Exceptions\ParseValueException.cs" />
+    <Compile Include="Exceptions\ParseTypeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubClassMapping.cs" />
-    <Compile Include="Utils\TypeBuilder.cs" />
+    <Compile Include="Utils\GeneratorFactory.cs" />
+    <Compile Include="Utils\PropertyTypeConverterFactory.cs" />
+    <Compile Include="Utils\TypeUtils.cs" />
     <Compile Include="Utils\XmlUtils.cs" />
     <Compile Include="XmlDiscriminatorColumn.cs" />
-    <Compile Include="XmlGenerator.cs" />
     <Compile Include="XmlMappingBuilder.cs" />
     <Compile Include="XmlTableMapping.cs" />
+    <Compile Include="XmlTablePropertyMapping.cs" />
     <Compile Include="XmlVersionProperty.cs" />
     <Compile Include="XmlViewMapping.cs" />
   </ItemGroup>
@@ -64,7 +70,9 @@
       <Name>SimpleORM</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

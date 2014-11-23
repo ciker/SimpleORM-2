@@ -1,4 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using Oracle.DataAccess.Client;
 using SimpleORM;
 using SimpleORM.QueryBuilder;
 
@@ -46,6 +53,8 @@ namespace Test
 
     public class Ticket
     {
+        public long _id;
+
         public long Id { get; set; }
 
         public long Gambler { get; set; }
@@ -56,7 +65,7 @@ namespace Test
     public class TicketBet
     {
         public static ThroughFunc<Bet, TicketBet> TicketBets = (b, tb) => b.Id == tb.BetId;
-        
+
         public static ThroughFunc<Ticket, TicketBet> BetTickets = (t, tb) => t.Id == tb.TicketId;
 
         public long TicketId { get; set; }
@@ -68,6 +77,48 @@ namespace Test
     {
         static void Main(string[] args)
         {
+            Func<byte, decimal> func = v => (decimal)v;
+
+            dynamic d = func;
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            for (var i = 0; i < 1000000; i++)
+            {
+                d((byte)1);
+            }
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            return;
+
+            using (DbConnection connection = new OracleConnection("Data Source=testbb; User Id=bigbet; Password=123;"))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+
+                const string query = @"
+begin
+  :result := test;
+end;
+";
+
+                command.CommandText = query;
+
+                var parameter = command.CreateParameter();
+                parameter.ParameterName = ":result";
+                parameter.DbType = DbType.Single;
+                parameter.Direction = ParameterDirection.Output;
+
+                command.Parameters.Add(parameter);
+
+                command.ExecuteNonQuery();
+
+                Console.WriteLine(parameter.Value);
+            }
+
+            return;
+
             IQueryBuilder queryBuilder = new QueryBuilder();
 
             var queryEvent1 = queryBuilder.Get<Event>(e => e.Id == Parameter.Next);
