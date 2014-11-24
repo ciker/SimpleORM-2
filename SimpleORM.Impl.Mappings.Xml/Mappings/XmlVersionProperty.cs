@@ -6,11 +6,11 @@ using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
-namespace SimpleORM.Impl.Mappings.Xml
+namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlVersionProperty : IVersionProperty
     {
-        public XmlVersionProperty(IObjectMapping objectMapping, XElement xVersion)
+        public XmlVersionProperty(IMapping objectMapping, XElement xVersion)
         {
             var name = XmlUtils.GetAsString(xVersion, "@name");
 

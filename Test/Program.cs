@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Oracle.DataAccess.Client;
@@ -73,22 +72,30 @@ namespace Test
         public long BetId { get; set; }
     }
 
+    internal delegate long OraFunction(long parameter);
+
     class Program
     {
+        public static class Functions
+        {
+            public static OraFunction SuperFunc;
+        }
+
         static void Main(string[] args)
         {
-            Func<byte, decimal> func = v => (decimal)v;
+            var package = "Test.Program+Functions";
+            var funcName = "SuperFunc";
 
-            dynamic d = func;
+            var type = Type.GetType(package);
+            var member = type.GetMember(funcName, MemberTypes.Field | MemberTypes.Property, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            for (var i = 0; i < 1000000; i++)
+            var fieldInfo = (FieldInfo) member;
+
+            foreach (var parameterInfo in fieldInfo.FieldType.GetMethod("Invoke").GetParameters())
             {
-                d((byte)1);
+                Console.WriteLine(parameterInfo.Name);
             }
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+
             return;
 
             using (DbConnection connection = new OracleConnection("Data Source=testbb; User Id=bigbet; Password=123;"))

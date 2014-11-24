@@ -8,6 +8,8 @@ namespace SimpleORM
     {
         void Configure(XElement configuration);
 
-        bool TryGetTableOrView(Type type, out IRootObjectMapping mapping);
+        void RegisterMapping(IMapping mapping);
+
+        TMapping GetMapping<TMapping>(Type type) where TMapping : IMapping;
     }
 }

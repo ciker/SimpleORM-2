@@ -8,7 +8,7 @@ using System.Xml.XPath;
 
 namespace SimpleORM.Impl.Mappings.Xml.Utils
 {
-    internal static class XmlUtils
+    public static class XmlUtils
     {
         public static string GetAsString(XElement element, string xPath, string defaultValue = default(string))
         {
@@ -93,6 +93,13 @@ namespace SimpleORM.Impl.Mappings.Xml.Utils
             var stringValue = GetAsString(element, xPath);
 
             return Guid.Parse(stringValue);
+        }
+
+        public static T GetAsEnum<T>(XElement element, string xPath)
+        {
+            var str = GetAsString(element, xPath);
+
+            return (T)Enum.Parse(typeof(T), str);
         }
 
         public static IEnumerable<XElement> Select(XElement element, string xPath)

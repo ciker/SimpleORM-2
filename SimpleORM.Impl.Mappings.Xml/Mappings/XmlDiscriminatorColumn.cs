@@ -5,7 +5,7 @@ using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
-namespace SimpleORM.Impl.Mappings.Xml
+namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlDiscriminatorColumn : IDiscriminatorColumn
     {
@@ -16,7 +16,7 @@ namespace SimpleORM.Impl.Mappings.Xml
             if (string.IsNullOrEmpty(typeString))
                 throw new DocumentParseException("Discriminator type is empty");
 
-            Type = TypeUtils.ParseType(typeString);
+            Type = TypeUtils.ParseType(typeString, true);
 
             var converterTypeString = XmlUtils.GetAsString(xDiscriminator, "@converter");
             if (converterTypeString != null)

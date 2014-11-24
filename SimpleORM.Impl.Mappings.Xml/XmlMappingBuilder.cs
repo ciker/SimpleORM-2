@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,18 +9,24 @@ using System.Xml.Linq;
 using log4net;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
 using SimpleORM.Impl.Mappings.Xml.Factories;
+using SimpleORM.Impl.Mappings.Xml.Mappings;
 using SimpleORM.Impl.Mappings.Xml.Utils;
+using SimpleORM.MappingBuilders;
 using SimpleORM.Mappings;
 
 namespace SimpleORM.Impl.Mappings.Xml
 {
-    public class XmlMappingBuilder : IMappingBuilder
+    public class XmlMappingBuilder : DefaultMappingBuilder
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(XmlMappingBuilder));
 
-        private readonly IDictionary<Type, IRootObjectMapping> _tableOrViewMappings = new Dictionary<Type, IRootObjectMapping>();
+        public XmlMappingBuilder()
+        {
+            RegisterMappingBuilder("table-mapping", xMapping => new XmlTableMapping(xMapping));
+            RegisterMappingBuilder("view-mapping", xMapping => new XmlViewMapping(xMapping));
+        }
 
-        public void Configure(XElement configuration)
+        public sealed override void Configure(XElement configuration)
         {
             //TODO - validate using schema
             //configuration.Validate();
@@ -33,6 +40,11 @@ namespace SimpleORM.Impl.Mappings.Xml
 
                 LoadFromAssembly(assemblyName, resourcesMask);
             }
+        }
+
+        protected void RegisterMappingBuilder(string documentType, MappingBuilder builder)
+        {
+            MappingFactory.RegisterMapping(documentType, builder);
         }
 
         private void LoadFromAssembly(string name, string mask)
@@ -68,17 +80,24 @@ namespace SimpleORM.Impl.Mappings.Xml
 
             var mapping = MappingFactory.CreateMapping(xMapping);
 
-            if (mapping is ITableMapping || mapping is IViewMapping)
+            IDictionary<Type, IMapping> mappingTypes;
+            if (!_mappings.TryGetValue(mapping.Type, out mappingTypes))
             {
-                var rootObjectMapping = mapping as IRootObjectMapping;
-                _tableOrViewMappings[rootObjectMapping.Type] = rootObjectMapping;
+                mappingTypes = new Dictionary<Type, IMapping>();
+                _mappings[mapping.Type] = mappingTypes;
             }
 
-        }
+            var mappingType = mapping is ITableViewMapping
+                ? typeof(ITableViewMapping)
+                : mapping.GetType();
 
-        public bool TryGetTableOrView(Type type, out IRootObjectMapping mapping)
-        {
-            return _tableOrViewMappings.TryGetValue(type, out mapping);
+
+            IMapping checkMapping;
+            if (mappingTypes.TryGetValue(mappingType, out checkMapping))
+                throw new ConfigurationException("Mapping of type '{0}' for '{1} type is already registered for '{2}' type",
+                    mappingType.FullName, mapping.Type, checkMapping.Type);
+
+            mappingTypes[mappingType] = mapping;
         }
     }
 }

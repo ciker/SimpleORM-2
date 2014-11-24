@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleORM.Impl.Mappings.Xml
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleORM.Impl.Mappings.Xml.Test", "SimpleORM.Impl.Mappings.Xml.Test\SimpleORM.Impl.Mappings.Xml.Test.csproj", "{E4A90ED7-92B5-4603-AF87-AAAE8C8F7BEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleORM.Oracle", "SimpleORM.Oracle\SimpleORM.Oracle.csproj", "{A104B11B-14DE-46E3-9A21-A5B0F86E770E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleORM.Impl.Mappings.Xml.Oracle", "SimpleORM.Impl.Mappings.Xml.Oracle\SimpleORM.Impl.Mappings.Xml.Oracle.csproj", "{D38CC947-E951-4312-99CD-C0618E8292BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{E4A90ED7-92B5-4603-AF87-AAAE8C8F7BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4A90ED7-92B5-4603-AF87-AAAE8C8F7BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4A90ED7-92B5-4603-AF87-AAAE8C8F7BEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A104B11B-14DE-46E3-9A21-A5B0F86E770E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A104B11B-14DE-46E3-9A21-A5B0F86E770E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A104B11B-14DE-46E3-9A21-A5B0F86E770E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A104B11B-14DE-46E3-9A21-A5B0F86E770E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D38CC947-E951-4312-99CD-C0618E8292BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D38CC947-E951-4312-99CD-C0618E8292BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D38CC947-E951-4312-99CD-C0618E8292BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D38CC947-E951-4312-99CD-C0618E8292BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

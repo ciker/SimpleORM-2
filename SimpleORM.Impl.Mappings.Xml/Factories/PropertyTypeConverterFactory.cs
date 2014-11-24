@@ -3,7 +3,7 @@ using SimpleORM.Impl.Mappings.Xml.Exceptions;
 
 namespace SimpleORM.Impl.Mappings.Xml.Factories
 {
-    internal class PropertyTypeConverterFactory
+    public static class PropertyTypeConverterFactory
     {
         public static IPropertyTypeConverter Create(string converterTypeString)
         {

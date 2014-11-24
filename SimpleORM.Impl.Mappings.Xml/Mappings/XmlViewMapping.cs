@@ -8,12 +8,17 @@ using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
-namespace SimpleORM.Impl.Mappings.Xml
+namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlViewMapping : IViewMapping
     {
-        public XmlViewMapping(XElement xClass)
+        public XmlViewMapping(XElement xMapping)
         {
+            var xClass = XmlUtils.Single(xMapping, "class");
+
+            if (xClass == null)
+                throw new DocumentParseException("No class element");
+
             Schema = XmlUtils.GetAsString(xClass, "@schema");
             Name = XmlUtils.GetAsString(xClass, "@table");
 

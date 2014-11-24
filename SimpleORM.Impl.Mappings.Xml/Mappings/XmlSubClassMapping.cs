@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
-namespace SimpleORM.Impl.Mappings.Xml
+namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlSubClassMapping : ISubClassMapping
     {

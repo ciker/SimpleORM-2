@@ -5,7 +5,7 @@ using SimpleORM.Impl.Mappings.Xml.Exceptions;
 
 namespace SimpleORM.Impl.Mappings.Xml.Utils
 {
-    internal class TypeUtils
+    public class TypeUtils
     {
         private static readonly IDictionary<string, Type> Shorthands = new Dictionary<string, Type>
         {
@@ -27,24 +27,37 @@ namespace SimpleORM.Impl.Mappings.Xml.Utils
             { "guid", typeof(Guid) }
         };
 
-        public static Type ParseType(string typeString)
+        public static bool TryParseType(string typeString, bool onlyShorthands, out Type type)
         {
-            Type type;
             var isNullable = typeString[typeString.Length - 1] == '?';
 
             if (isNullable)
                 typeString = typeString.Substring(0, typeString.Length - 1);
 
             if (!Shorthands.TryGetValue(typeString, out type))
-                throw new ParseTypeException("Unknown type '{0}'", typeString);                
-
-            if (isNullable)
             {
-                if (!type.IsValueType)
-                    throw new ParseTypeException("Cannot make type '{0}' nullable, type isn't value type", typeString);
+                if (onlyShorthands)
+                    return false;
 
-                type = typeof(Nullable<>).MakeGenericType(type);
+                type = Type.GetType(typeString, true);
             }
+
+            if (!isNullable) 
+                return true;
+
+            if (!type.IsValueType)
+                throw new ParseTypeException("Cannot make type '{0}' nullable, type isn't a value type", typeString);
+
+            type = typeof(Nullable<>).MakeGenericType(type);
+
+            return true;
+        }
+
+        public static Type ParseType(string typeString, bool onlyShorthands)
+        {
+            Type type;
+            if (!TryParseType(typeString, onlyShorthands, out type))
+                throw new ParseTypeException("Unknown type '{0}'", typeString);                
 
             return type;
         }

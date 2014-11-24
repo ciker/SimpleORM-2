@@ -6,12 +6,17 @@ using SimpleORM.Impl.Mappings.Xml.Exceptions;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
-namespace SimpleORM.Impl.Mappings.Xml
+namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlTableMapping : ITableMapping
     {
-        public XmlTableMapping(XElement xClass)
+        public XmlTableMapping(XElement xMapping)
         {
+            var xClass = XmlUtils.Single(xMapping, "class");
+
+            if (xClass == null)
+                throw new DocumentParseException("No class element");
+
             Schema = XmlUtils.GetAsString(xClass, "@schema");
             Name = XmlUtils.GetAsString(xClass, "@table");
 

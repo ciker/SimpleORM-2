@@ -12,147 +12,147 @@ namespace SimpleORM.Impl.Mappings.Xml.Test
         [ExpectedException(typeof(ParseTypeException))]
         public void ResolveWrongType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("wrong-type"), typeof(bool));
+            Assert.AreEqual(TypeUtils.ParseType("wrong-type", true), typeof(bool));
         }
 
         [Test]
         public void ResolveBooleanType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("bool"), typeof(bool));
+            Assert.AreEqual(TypeUtils.ParseType("bool", true), typeof(bool));
         }
 
         [Test]
         public void ResolveNullableBooleanType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("bool?"), typeof(bool?));
+            Assert.AreEqual(TypeUtils.ParseType("bool?", true), typeof(bool?));
         }
 
         [Test]
         public void ResolveStringType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("string"), typeof(string));
+            Assert.AreEqual(TypeUtils.ParseType("string", true), typeof(string));
         }
 
         [Test]
         [ExpectedException(typeof(ParseTypeException))]
         public void ResolveNullableStringType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("string?"), typeof(string));
+            Assert.AreEqual(TypeUtils.ParseType("string?", true), typeof(string));
         }
 
         [Test]
         public void ResolveTypeType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("type"), typeof(Type));
+            Assert.AreEqual(TypeUtils.ParseType("type", true), typeof(Type));
         }
 
         [Test]
         [ExpectedException(typeof(ParseTypeException))]
         public void ResolveNullableTypeType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("type?"), typeof(Type));
+            Assert.AreEqual(TypeUtils.ParseType("type?", true), typeof(Type));
         }
 
         [Test]
         public void ResolveDateTimeType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("date-time"), typeof(DateTime));
+            Assert.AreEqual(TypeUtils.ParseType("date-time", true), typeof(DateTime));
         }
 
         [Test]
         public void ResolveByteType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("byte"), typeof(byte));
+            Assert.AreEqual(TypeUtils.ParseType("byte", true), typeof(byte));
         }
 
         [Test]
         public void ResolveNullableByteType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("byte?"), typeof(byte?));
+            Assert.AreEqual(TypeUtils.ParseType("byte?", true), typeof(byte?));
         }
 
         [Test]
         public void ResolveShortType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("short"), typeof(short));
+            Assert.AreEqual(TypeUtils.ParseType("short", true), typeof(short));
         }
 
         [Test]
         public void ResolveNullableShortType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("short?"), typeof(short?));
+            Assert.AreEqual(TypeUtils.ParseType("short?", true), typeof(short?));
         }
 
         [Test]
         public void ResolveIntType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("int"), typeof(int));
+            Assert.AreEqual(TypeUtils.ParseType("int", true), typeof(int));
         }
 
         [Test]
         public void ResolveNullableIntType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("int?"), typeof(int?));
+            Assert.AreEqual(TypeUtils.ParseType("int?", true), typeof(int?));
         }
 
         [Test]
         public void ResolveLongType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("long"), typeof(long));
+            Assert.AreEqual(TypeUtils.ParseType("long", true), typeof(long));
         }
 
         [Test]
         public void ResolveNullableLongType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("long?"), typeof(long?));
+            Assert.AreEqual(TypeUtils.ParseType("long?", true), typeof(long?));
         }
 
         [Test]
         public void ResolveFloatType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("float"), typeof(float));
+            Assert.AreEqual(TypeUtils.ParseType("float", true), typeof(float));
         }
 
         [Test]
         public void ResolveNullableFloatType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("float?"), typeof(float?));
+            Assert.AreEqual(TypeUtils.ParseType("float?", true), typeof(float?));
         } 
         
         [Test]
         public void ResolveDoubleType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("double"), typeof(double));
+            Assert.AreEqual(TypeUtils.ParseType("double", true), typeof(double));
         }
 
         [Test]
         public void ResolveNullableDoubleType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("double?"), typeof(double?));
+            Assert.AreEqual(TypeUtils.ParseType("double?", true), typeof(double?));
         }
 
         [Test]
         public void ResolveDecimalType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("decimal"), typeof(decimal));
+            Assert.AreEqual(TypeUtils.ParseType("decimal", true), typeof(decimal));
         }
 
         [Test]
         public void ResolveNullableDecimalType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("decimal?"), typeof(decimal?));
+            Assert.AreEqual(TypeUtils.ParseType("decimal?", true), typeof(decimal?));
         }
 
         [Test]
         public void ResolveGuidType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("guid"), typeof(Guid));
+            Assert.AreEqual(TypeUtils.ParseType("guid", true), typeof(Guid));
         }
 
         [Test]
         public void ResolveNullableGuidType()
         {
-            Assert.AreEqual(TypeUtils.ParseType("guid?"), typeof(Guid?));
+            Assert.AreEqual(TypeUtils.ParseType("guid?", true), typeof(Guid?));
         }
     }
 }

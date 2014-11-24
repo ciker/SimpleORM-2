@@ -50,6 +50,8 @@
     <Compile Include="IMappingBuilder.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="ITypeConverter.cs" />
+    <Compile Include="Exceptions\ConfigurationException.cs" />
+    <Compile Include="MappingBuilders\DefaultMappingBuilder.cs" />
     <Compile Include="Mappings\IGenerator.cs" />
     <Compile Include="Mappings\IHasDiscriminator.cs" />
     <Compile Include="Mappings\IObjectMapping.cs" />
@@ -82,9 +84,7 @@
     <Compile Include="Statements\SelectStatement.cs" />
     <Compile Include="TableAliasGenerators\TableAliasGenerator.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dialects\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

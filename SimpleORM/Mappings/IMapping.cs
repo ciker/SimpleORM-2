@@ -1,4 +1,6 @@
-﻿namespace SimpleORM.Mappings
+﻿using System;
+
+namespace SimpleORM.Mappings
 {
     public interface IMapping
     {
@@ -11,5 +13,10 @@
         /// Database entity schema
         /// </summary>
         string Schema { get; }
+
+        /// <summary>
+        /// .NET object type
+        /// </summary>
+        Type Type { get; }
     }
 }

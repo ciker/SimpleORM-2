@@ -1,5 +1,4 @@
-﻿using System.Data;
-using SimpleORM.Statements;
+﻿using SimpleORM.Statements;
 
 namespace SimpleORM.Queries
 {

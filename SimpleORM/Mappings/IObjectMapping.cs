@@ -3,13 +3,8 @@ using System.Collections.Generic;
 
 namespace SimpleORM.Mappings
 {
-    public interface IObjectMapping : IHasSubClasses
+    public interface IHasProperties
     {
-        /// <summary>
-        /// .NET object type
-        /// </summary>
-        Type Type { get; }
-
         IList<IPropertyMapping> Properties { get; }
     }
 
@@ -22,9 +17,9 @@ namespace SimpleORM.Mappings
         string Column { get; }
     }
 
-    public interface IRootObjectMapping : IObjectMapping, IHasDiscriminatorColumn { }
+    public interface ITableViewMapping : IMapping, IHasProperties, IHasDiscriminatorColumn { }
 
-    public interface ISubClassMapping : IObjectMapping
+    public interface ISubClassMapping : IHasProperties
     {
         object DiscriminatorValue { get; }
 

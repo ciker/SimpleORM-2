@@ -1,0 +1,13 @@
+﻿<function-mapping>
+  <function name="management.func" schema="bigbet" delegate="Management.Func">
+    <return-value converter=""/>
+    
+    <parameter name="FactorId" db-name="factor_id" />
+    
+    <parameter name="IsReady" member="is_ready" converter="SimpleORM.PropertyTypeConverters.YesNoPropertyTypeConverter, SimpleORM" />
+    
+    <property name="Factor" member="factor" />
+    
+    <property name="Factors" member="factors" />
+  </function>
+</function-mapping>
