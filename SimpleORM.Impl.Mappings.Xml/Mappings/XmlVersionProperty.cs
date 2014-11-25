@@ -25,7 +25,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
             if (XmlUtils.Exists(xVersion, "@converter"))
             {
                 var converterTypeString = XmlUtils.GetAsString(xVersion, "@converter");
-                Converter = PropertyTypeConverterFactory.Create(converterTypeString);
+                Converter = ConverterFactory.Create(converterTypeString);
             }
         }
 
@@ -33,6 +33,6 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 
         public MemberInfo Member { get; private set; }
 
-        public IPropertyTypeConverter Converter { get; set; }
+        public IConverter Converter { get; set; }
     }
 }

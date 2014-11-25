@@ -55,11 +55,11 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
             if (XmlUtils.Exists(xObjectProperty, "@converter"))
             {
                 var converterTypeString = XmlUtils.GetAsString(xObjectProperty, "@converter");
-                Converter = PropertyTypeConverterFactory.Create(converterTypeString);
+                Converter = ConverterFactory.Create(converterTypeString);
             }
         }
 
-        public IPropertyTypeConverter Converter { get; set; }
+        public IConverter Converter { get; set; }
 
         public string Name { get; private set; }
 

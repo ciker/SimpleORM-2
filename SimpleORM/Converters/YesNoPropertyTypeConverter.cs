@@ -1,30 +1,30 @@
 ﻿using System;
 
-namespace SimpleORM.PropertyTypeConverters
+namespace SimpleORM.Converters
 {
-    public class TrueFalsePropertyTypeConverter : PropertyTypeConverter<string, bool>
+    public class YesNoConverter : Converter<string, bool>
     {
         protected override Func<string, bool> ConverterFromT1ToT2
         {
-            get { return v => v == "T"; }
+            get { return v => v == "Y"; }
         }
 
         protected override Func<bool, string> ConverterFromT2ToT1
         {
-            get { return v => v ? "T" : "F"; }
+            get { return v => v ? "Y" : "N"; }
         }
     }
 
-    public class TrueFalseLowerPropertyTypeConverter : PropertyTypeConverter<string, bool>
+    public class LowerYesNoConverter : Converter<string, bool>
     {
         protected override Func<string, bool> ConverterFromT1ToT2
         {
-            get { return v => v == "t"; }
+            get { return v => v == "y"; }
         }
 
         protected override Func<bool, string> ConverterFromT2ToT1
         {
-            get { return v => v ? "t" : "f"; }
+            get { return v => v ? "y" : "n"; }
         }
     }
 }

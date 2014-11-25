@@ -20,14 +20,14 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 
             var converterTypeString = XmlUtils.GetAsString(xDiscriminator, "@converter");
             if (converterTypeString != null)
-                Converter = PropertyTypeConverterFactory.Create(converterTypeString);
+                Converter = ConverterFactory.Create(converterTypeString);
 
             Column = XmlUtils.GetAsString(xDiscriminator, "@column");
         }
 
         public Type Type { get; private set; }
 
-        public IPropertyTypeConverter Converter { get; set; }
+        public IConverter Converter { get; set; }
 
         public string Column { get; private set; }
     }

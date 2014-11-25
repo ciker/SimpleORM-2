@@ -72,7 +72,7 @@ namespace Test
         public long BetId { get; set; }
     }
 
-    internal delegate long OraFunction(long parameter);
+    internal delegate void OraFunction(long parameter);
 
     class Program
     {
@@ -87,11 +87,20 @@ namespace Test
             var funcName = "SuperFunc";
 
             var type = Type.GetType(package);
+
             var member = type.GetMember(funcName, MemberTypes.Field | MemberTypes.Property, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             var fieldInfo = (FieldInfo) member;
 
-            foreach (var parameterInfo in fieldInfo.FieldType.GetMethod("Invoke").GetParameters())
+            var fieldType = fieldInfo.FieldType;
+
+            Console.WriteLine(typeof(Delegate).IsAssignableFrom(fieldType));
+
+            var methodInfo = fieldType.GetMethod("Invoke");
+
+            Console.WriteLine(methodInfo.ReturnType);
+
+            foreach (ParameterInfo parameterInfo in methodInfo.GetParameters())
             {
                 Console.WriteLine(parameterInfo.Name);
             }

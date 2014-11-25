@@ -34,7 +34,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
             if (XmlUtils.Exists(xTableProperty, "@converter"))
             {
                 var converterTypeString = XmlUtils.GetAsString(xTableProperty, "@converter");
-                Converter = PropertyTypeConverterFactory.Create(converterTypeString);
+                Converter = ConverterFactory.Create(converterTypeString);
             }
         }
 
@@ -48,6 +48,6 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 
         public bool Update { get; private set; }
 
-        public IPropertyTypeConverter Converter { get; set; }
+        public IConverter Converter { get; set; }
     }
 }

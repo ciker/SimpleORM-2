@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data;
+using System.Reflection;
 
 namespace SimpleORM.Oracle.Mappings
 {
@@ -9,10 +11,12 @@ namespace SimpleORM.Oracle.Mappings
 
     public interface IParameterMapping
     {
-        string ParameterName { get; }
+        ParameterInfo Parameter { get; }
 
         string DbParameterName { get; }
 
-        int DbType { get; }
+        DbType DbType { get; set; }
+
+        int Length { get; }
     }
 }

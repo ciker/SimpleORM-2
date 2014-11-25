@@ -2,7 +2,7 @@
 
 namespace SimpleORM
 {
-    public interface IPropertyTypeConverter
+    public interface IConverter
     {
         Type Type1 { get; }
 
@@ -18,6 +18,6 @@ namespace SimpleORM
         /// <summary>
         /// It's converter from type returned from data reader to property type, can be assigned during the first execution
         /// </summary>
-        IPropertyTypeConverter Converter { get; set; }
+        IConverter Converter { get; set; }
     }
 }

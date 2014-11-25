@@ -1,9 +1,9 @@
 ﻿using System;
-using SimpleORM.PropertyTypeConverters.Exceptions;
+using SimpleORM.Converters.Exceptions;
 
-namespace SimpleORM.PropertyTypeConverters
+namespace SimpleORM.Converters
 {
-    public abstract class PropertyTypeConverter<T1, T2> : IPropertyTypeConverter
+    public abstract class Converter<T1, T2> : IConverter
     {
         public Type Type1
         {
@@ -28,7 +28,7 @@ namespace SimpleORM.PropertyTypeConverters
             if (sourceType == typeof(T2) && targetType == typeof(T1))
                 return ConverterFromT2ToT1;
 
-            throw new PropertyConversionException(sourceType, targetType);
+            throw new ConversionException(sourceType, targetType);
         }
 
         protected abstract Func<T1, T2> ConverterFromT1ToT2 { get; }

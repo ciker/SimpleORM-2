@@ -12,7 +12,7 @@ namespace SimpleORM.Mappings
     {
         Type Type { get; }
 
-        IPropertyTypeConverter Converter { get; set; }
+        IConverter Converter { get; set; }
 
         string Column { get; }
     }

@@ -1,13 +1,13 @@
 ﻿<function-mapping>
-  <function name="management.func" schema="bigbet" delegate="Management.Func">
-    <return-value converter=""/>
+  <function name="management.func" schema="bigbet" class="Test.DatabaseFacade+Management" delegate="Func">
+    <return-value converter="" length="" db-type="Int64"/>
     
-    <parameter name="FactorId" db-name="factor_id" />
+    <parameter name="FactorId" db-name="factor_id" db-type="Int64" />
     
-    <parameter name="IsReady" member="is_ready" converter="SimpleORM.PropertyTypeConverters.YesNoPropertyTypeConverter, SimpleORM" />
+    <parameter name="IsReady" member="is_ready" converter="YN" length="1" />
     
-    <property name="Factor" member="factor" />
-    
-    <property name="Factors" member="factors" />
+    <parameter name="Factor" member="factor" />
+
+    <parameter name="Factors" member="factors" />
   </function>
 </function-mapping>

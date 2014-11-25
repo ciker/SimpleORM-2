@@ -9,6 +9,32 @@ namespace SimpleORM.Impl.Mappings.Xml.Test
     public class ParseTypeUnitTest
     {
         [Test]
+        public void ResolveValueCLRTypeAsNullable()
+        {
+            Assert.AreEqual(TypeUtils.ParseType("System.DateTime?", false), typeof(DateTime?));
+        }   
+
+        [Test]
+        [ExpectedException(typeof(ParseTypeException))]
+        public void ResolveNonValueCLRTypeAsNullable()
+        {
+            Assert.AreEqual(TypeUtils.ParseType("System.Object?", false), typeof(object));
+        }   
+
+        [Test]
+        public void ResolveCLRType()
+        {
+            Assert.AreEqual(TypeUtils.ParseType("System.Object", false), typeof(object));
+        }   
+
+        [Test]
+        [ExpectedException(typeof(ParseTypeException))]
+        public void ResolveCLRTypeOnlyShorthands()
+        {
+            Assert.AreEqual(TypeUtils.ParseType("System.Object", true), typeof(bool));
+        }   
+        
+        [Test]
         [ExpectedException(typeof(ParseTypeException))]
         public void ResolveWrongType()
         {

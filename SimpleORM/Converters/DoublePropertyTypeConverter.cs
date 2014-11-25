@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SimpleORM.PropertyTypeConverters
+namespace SimpleORM.Converters
 {
-    public class DoubleBytePropertyTypeConverter : PropertyTypeConverter<double, byte>
+    public class DoubleByteConverter : Converter<double, byte>
     {
         protected override Func<double, byte> ConverterFromT1ToT2
         {
@@ -15,7 +15,7 @@ namespace SimpleORM.PropertyTypeConverters
         }
     }
 
-    public class DoubleInt16PropertyTypeConverter : PropertyTypeConverter<double, short>
+    public class DoubleInt16Converter : Converter<double, short>
     {
         protected override Func<double, short> ConverterFromT1ToT2
         {
@@ -28,7 +28,7 @@ namespace SimpleORM.PropertyTypeConverters
         }
     }
 
-    public class DoubleInt32PropertyTypeConverter : PropertyTypeConverter<double, int>
+    public class DoubleInt32Converter : Converter<double, int>
     {
         protected override Func<double, int> ConverterFromT1ToT2
         {
@@ -41,7 +41,7 @@ namespace SimpleORM.PropertyTypeConverters
         }
     }
 
-    public class DoubleInt64PropertyTypeConverter : PropertyTypeConverter<double, long>
+    public class DoubleInt64Converter : Converter<double, long>
     {
         protected override Func<double, long> ConverterFromT1ToT2
         {
@@ -54,7 +54,7 @@ namespace SimpleORM.PropertyTypeConverters
         }
     }
 
-    public class DoubleFloatPropertyTypeConverter : PropertyTypeConverter<double, float>
+    public class DoubleFloatConverter : Converter<double, float>
     {
         protected override Func<double, float> ConverterFromT1ToT2
         {

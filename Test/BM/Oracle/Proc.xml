@@ -2,10 +2,10 @@
   <procedure name="management.proc" schema="bigbet" delegate="Management.Proc">
     <parameter name="FactorId" db-name="factor_id" />
     
-    <parameter name="IsReady" member="is_ready" converter="SimpleORM.PropertyTypeConverters.YesNoPropertyTypeConverter, SimpleORM" />
+    <parameter name="isReady" member="is_ready" converter="YN" db-type="Char" length="1" />
     
-    <property name="Factor" member="factor" />
-    
-    <property name="Factors" member="factors" />
+    <parameter name="factor" member="factor" />
+
+    <parameter name="factors" member="factors" />
   </procedure>
 </procedure-mapping>

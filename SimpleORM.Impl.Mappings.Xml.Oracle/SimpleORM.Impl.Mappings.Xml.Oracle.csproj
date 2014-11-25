@@ -39,7 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mappings\XmlProcedureMapping.cs" />
+    <Compile Include="Mappings\XmlFunctionMapping.cs" />
     <Compile Include="Mappings\XmlObjectTableMapping.cs" />
+    <Compile Include="Mappings\XmlParameterMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlMappingBuilder.cs" />
     <Compile Include="Mappings\XmlObjectMapping.cs" />

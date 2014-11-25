@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IOracleQueryBuilder.cs" />
+    <Compile Include="Mappings\IProcedureMapping.cs" />
     <Compile Include="Mappings\IFunctionMapping.cs" />
     <Compile Include="Mappings\IObjectTableMapping.cs" />
     <Compile Include="Mappings\IObjectMapping.cs" />
