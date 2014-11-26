@@ -59,12 +59,14 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
     {
         public XmlViewPropertyMapping(Type classType, XElement xTableProperty)
         {
-            Name = XmlUtils.GetAsString(xTableProperty, "@name");
+            Name = XmlUtils.GetAsString(xTableProperty, "@column");
+            
+            var name = XmlUtils.GetAsString(xTableProperty, "@name");
 
-            Member = classType.GetMember(Name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
+            Member = classType.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             if (Member == null)
-                throw new DocumentParseException("Canot find member '{0}'", Name);
+                throw new DocumentParseException("Canot find member '{0}'", name);
 
             if (XmlUtils.Exists(xTableProperty, "@converter"))
             {

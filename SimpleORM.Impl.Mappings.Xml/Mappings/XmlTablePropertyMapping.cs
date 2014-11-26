@@ -13,12 +13,14 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
     {
         public XmlTablePropertyMapping(Type classType, XElement xTableProperty)
         {
-            Name = XmlUtils.GetAsString(xTableProperty, "@name");
+            Name = XmlUtils.GetAsString(xTableProperty, "@column");
+            
+            var name = XmlUtils.GetAsString(xTableProperty, "@name");
 
-            Member = classType.GetMember(Name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
+            Member = classType.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             if (Member == null)
-                throw new DocumentParseException("Canot find member '{0}'", Name);
+                throw new DocumentParseException("Canot find member '{0}'", name);
 
             var xGenerator = XmlUtils.Single(xTableProperty, "generator");
             if (xGenerator != null)
@@ -27,9 +29,8 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
                 Generator = GeneratorFactory.GetGenerator(xGeneratorElement);
             }
 
-            Insert = !XmlUtils.Exists(xTableProperty, "@insert") || XmlUtils.GetAsBoolean(xTableProperty, "@insert");
-            Update = !XmlUtils.Exists(xTableProperty, "@update") || XmlUtils.GetAsBoolean(xTableProperty, "@update");
-
+            Insert = XmlUtils.GetAsBoolean(xTableProperty, "@insert", true);
+            Update = XmlUtils.GetAsBoolean(xTableProperty, "@update", true);
 
             if (XmlUtils.Exists(xTableProperty, "@converter"))
             {

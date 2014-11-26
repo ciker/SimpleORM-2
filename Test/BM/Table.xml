@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<table-mapping>
-  <class name="Event" table="Event" schema="bigbet" >
+<table-mapping xmlns="urn:orm-table-mapping">
+  <class name="Event" table="event" schema="bigbet">
+    <discriminator column="type" type="long"/>
+    
     <property name="Id" column="id">
       <generator>
-        <sequence name="seq_name" />
+        <sequence name="seq_name" />        
       </generator>
     </property>
 
@@ -12,21 +14,18 @@
         <db-assigned />
       </generator>
     </property>
-    
-    <!--<property name="CreationTimeAndZone" column="creation_time_and_zone">
-      <generator>
-        <custom type="Namespace.GeneratorName" />
-      </generator>
-    </property>-->
 
-    <discriminator column="type" type="long"/>
-
-    <property name="StringValue" column="value" length="11" />
+    <property name="StringProperty" column="value" />
 
     <property name="BoolProperty" column="bool" converter="YesNoConverter" update="false" insert="false" />
 
     <version name="Version" column="version" />
 
+    <primary-key>
+      <property name="Id" />
+      <property name="CreationTimeAndZone" />
+    </primary-key>
+    
     <subclass name="RegularEvent" discriminator-value="1">
       <join table="regular_event">
         <column name="event_id" join-table="event" join-column="id" />
@@ -44,10 +43,5 @@
 
       <property name="StringValue" column="value" />
     </subclass>
-
-    <primary-key>
-      <property name="Id" />
-      <property name="CreationTimeAndZone" />
-    </primary-key>
   </class>
 </table-mapping>

@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace SimpleORM.Mappings
 {
-    public interface IPropertyMapping : IHasPropertyTypeConverter
+    public interface IPropertyMapping : IHasConverter
     {
         /// <summary>
         /// Database entity property (table or view column, db-type property etc.)

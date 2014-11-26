@@ -6,11 +6,13 @@ namespace SimpleORM.Impl.Mappings.Xml.Factories
 {
     public static class ConverterFactory
     {
-        private static readonly IDictionary<string, Type> Shorthands = new Dictionary<string, Type>();
+        private static readonly IDictionary<string, IConverter> Shorthands = new Dictionary<string, IConverter>();
+        
+        private static readonly IDictionary<Type, IConverter> Cache = new Dictionary<Type, IConverter>();
 
-        public static void RegisterShorthand<T>(string name) where T : IConverter
+        public static void RegisterShorthand<T>(string name) where T : IConverter, new()
         {
-            Shorthands[name] = typeof(T);
+            Shorthands[name] = new T();
         }
 
         public static IConverter Create(string converterTypeString)
@@ -18,14 +20,23 @@ namespace SimpleORM.Impl.Mappings.Xml.Factories
             if (converterTypeString == null)
                 throw new ArgumentNullException("converterTypeString");
 
-            Type converterType;
-            if (!Shorthands.TryGetValue(converterTypeString, out converterType))
-                converterType = Type.GetType(converterTypeString, true);
+            IConverter converter;
+            if (Shorthands.TryGetValue(converterTypeString, out converter))
+                return converter;
+
+            var converterType = Type.GetType(converterTypeString, true);
+
+            if (Cache.TryGetValue(converterType, out converter))
+                return converter;
 
             if (!typeof(IConverter).IsAssignableFrom(converterType))
                 throw new DocumentParseException("Illegal converter class '{0}', class must be inherited from '{1}'", converterType.FullName, typeof(IConverter).FullName);
 
-            return (IConverter)Activator.CreateInstance(converterType);
+            converter = (IConverter)Activator.CreateInstance(converterType);
+
+            Cache[converterType] = converter;
+
+            return converter;
         }
     }
 }

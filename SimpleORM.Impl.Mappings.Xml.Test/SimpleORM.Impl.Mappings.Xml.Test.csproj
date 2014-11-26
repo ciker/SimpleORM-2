@@ -49,6 +49,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ConverterFactoryUnitTest.cs" />
     <Compile Include="ParseTypeUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -56,6 +57,10 @@
     <ProjectReference Include="..\SimpleORM.Impl.Mappings.Xml\SimpleORM.Impl.Mappings.Xml.csproj">
       <Project>{9790d544-12e5-44cf-b084-cfb91b76e15b}</Project>
       <Name>SimpleORM.Impl.Mappings.Xml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleORM\SimpleORM.csproj">
+      <Project>{40E01927-4921-44D1-A5CF-CB0B7677F4BA}</Project>
+      <Name>SimpleORM</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

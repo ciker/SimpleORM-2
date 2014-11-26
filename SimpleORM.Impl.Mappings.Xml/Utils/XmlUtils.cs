@@ -88,6 +88,14 @@ namespace SimpleORM.Impl.Mappings.Xml.Utils
             return bool.Parse(stringValue);
         }
 
+        public static bool GetAsBoolean(XElement element, string xPath, bool defaultValue)
+        {
+            var stringValue = GetAsString(element, xPath);
+
+            bool result;
+            return bool.TryParse(stringValue, out result) ? result : defaultValue;
+        }
+
         public static Guid GetAsGuid(XElement element, string xPath)
         {
             var stringValue = GetAsString(element, xPath);

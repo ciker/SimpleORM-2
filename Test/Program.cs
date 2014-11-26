@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Schema;
 using Oracle.DataAccess.Client;
 using SimpleORM;
 using SimpleORM.QueryBuilder;
@@ -83,28 +87,13 @@ namespace Test
 
         static void Main(string[] args)
         {
-            var package = "Test.Program+Functions";
-            var funcName = "SuperFunc";
 
-            var type = Type.GetType(package);
-
-            var member = type.GetMember(funcName, MemberTypes.Field | MemberTypes.Property, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
-
-            var fieldInfo = (FieldInfo) member;
-
-            var fieldType = fieldInfo.FieldType;
-
-            Console.WriteLine(typeof(Delegate).IsAssignableFrom(fieldType));
-
-            var methodInfo = fieldType.GetMethod("Invoke");
-
-            Console.WriteLine(methodInfo.ReturnType);
-
-            foreach (ParameterInfo parameterInfo in methodInfo.GetParameters())
-            {
-                Console.WriteLine(parameterInfo.Name);
-            }
-
+            var xml = XDocument.Parse(File.ReadAllText("c:\\test.xml"));
+            
+            var schemas = new XmlSchemaSet();
+            schemas.Add("urn:orm-table-mapping", XmlReader.Create(new StringReader(File.ReadAllText("C:\\test.xsd"))));
+           
+            xml.Validate(schemas,  (sender, e) => Console.WriteLine(e.Message), true);
             return;
 
             using (DbConnection connection = new OracleConnection("Data Source=testbb; User Id=bigbet; Password=123;"))

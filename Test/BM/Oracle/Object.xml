@@ -1,13 +1,13 @@
-﻿<object-mapping>
+﻿<object-mapping xmlns="urn:orm-oracle-object-mapping">
   <object name="factor_object" schema="bigbet" class="FactorObject">
-    <property name="Id" member="id" />
-    
-    <property name="OutcomeId" member="outcome_id" />
-    
-    <property name="Value" member="value" />
-    
-    <property name="State" member="state" />
-    
-    <property name="Version" member="version" />
+    <property name="Id" attribute="id" />
+
+    <property name="OutcomeId" attribute="outcome_id" />
+
+    <property name="Value" attribute="value" />
+
+    <property name="State" attribute="state" />
+
+    <property name="Version" attribute="version" />
   </object>
 </object-mapping>

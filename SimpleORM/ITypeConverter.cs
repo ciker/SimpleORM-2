@@ -13,7 +13,7 @@ namespace SimpleORM
         Delegate GetConverter(Type sourceType, Type targetType);
     }
 
-    public interface IHasPropertyTypeConverter
+    public interface IHasConverter
     {
         /// <summary>
         /// It's converter from type returned from data reader to property type, can be assigned during the first execution

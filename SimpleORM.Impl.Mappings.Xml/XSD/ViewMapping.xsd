@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="urn:orm-view-mapping"
+           targetNamespace="urn:orm-view-mapping"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  
+  <xs:element name="view-mapping" type="view-mapping-type" />
+
+  <xs:complexType name="view-mapping-type">
+    <xs:sequence>
+      <xs:element name="class" type="class-type" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="class-type">
+    <xs:sequence>
+      <xs:element name="discriminator" type="discriminator-type" minOccurs="0" maxOccurs="1" />
+      <xs:element name="property" type="property-type"  minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="version" type="version-type" minOccurs="0" maxOccurs="1" />
+      <xs:element name="subclass" type="subclass-type"  minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="view" type="xs:string" use="required" />
+    <xs:attribute name="schema" type="xs:string" use="optional" />
+    <xs:attribute name="abstract" type="xs:boolean" use="optional" />
+    <xs:attribute name="discriminator-value" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="property-type">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="column" type="xs:string" use="required"/>
+    <xs:attribute name="converter" type="xs:string" use="optional"/>
+    <xs:attribute name="update" type="xs:boolean" use="optional"/>
+    <xs:attribute name="insert" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="discriminator-type">
+    <xs:attribute name="column" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="version-type">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="column" type="xs:string" use="required"/>
+  </xs:complexType>
+
+    
+  <xs:complexType name="subclass-type">
+    <xs:sequence>
+      <xs:element name="join" type="subclass-join-type" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="property" type="property-type"  minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="subclass" type="subclass-type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="discriminator-value" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="subclass-join-type">
+    <xs:sequence>
+      <xs:element name="column" type="subclass-join-column-type" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+
+    <xs:attribute name="table" type="xs:string" use="required"/>
+    <xs:attribute name="schema" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="subclass-join-column-type">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    
+    <xs:attribute name="join-schema" type="xs:string" use="optional"/>
+    <xs:attribute name="join-table" type="xs:string" use="optional"/>
+    <xs:attribute name="join-column" type="xs:string" use="required"/>
+  </xs:complexType>
+</xs:schema>

@@ -45,12 +45,14 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
     {
         public XmlObjectPropertyMapping(Type classType, XElement xObjectProperty)
         {
-            Name = XmlUtils.GetAsString(xObjectProperty, "@name");
+            Name = XmlUtils.GetAsString(xObjectProperty, "@attribute");
+            
+            var name = XmlUtils.GetAsString(xObjectProperty, "@name");
 
-            Member = classType.GetMember(Name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
+            Member = classType.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             if (Member == null)
-                throw new DocumentParseException("Canot find member '{0}'", Name);
+                throw new DocumentParseException("Canot find member '{0}'", name);
 
             if (XmlUtils.Exists(xObjectProperty, "@converter"))
             {
