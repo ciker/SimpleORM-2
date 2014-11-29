@@ -52,6 +52,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SimpleORM.Impl.Mappings.Xml.Oracle\SimpleORM.Impl.Mappings.Xml.Oracle.csproj">
+      <Project>{d38cc947-e951-4312-99cd-c0618e8292bf}</Project>
+      <Name>SimpleORM.Impl.Mappings.Xml.Oracle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleORM.Impl.Mappings.Xml\SimpleORM.Impl.Mappings.Xml.csproj">
+      <Project>{9790d544-12e5-44cf-b084-cfb91b76e15b}</Project>
+      <Name>SimpleORM.Impl.Mappings.Xml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleORM\SimpleORM.csproj">
       <Project>{40e01927-4921-44d1-a5cf-cb0b7677f4ba}</Project>
       <Name>SimpleORM</Name>
@@ -59,13 +67,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BM\Oracle\Proc.xml" />
-    <Content Include="BM\Oracle\Func.xml" />
+    <EmbeddedResource Include="BM\Oracle\Func.xml" />
     <Content Include="BM\Oracle\ObjectTable.xml" />
     <Content Include="BM\Oracle\Object.xml" />
     <Content Include="BM\View.xml" />
-    <Content Include="BM\Table.xml">
+    <EmbeddedResource Include="BM\Table.xml">
       <SubType>Designer</SubType>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

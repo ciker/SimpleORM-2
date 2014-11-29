@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="urn:orm-oracle-object-mapping"
-           targetNamespace="urn:orm-oracle-object-mapping"
+<xs:schema xmlns="urn:dbm-oracle-object-mapping"
+           targetNamespace="urn:dbm-oracle-object-mapping"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            elementFormDefault="qualified"
            attributeFormDefault="unqualified">

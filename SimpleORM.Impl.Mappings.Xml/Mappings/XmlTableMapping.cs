@@ -10,9 +10,9 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlTableMapping : ITableMapping
     {
-        public XmlTableMapping(XElement xMapping)
+        public XmlTableMapping(XDocument xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping, "class");
+            var xClass = XmlUtils.Single(xMapping.Root, "class");
 
             if (xClass == null)
                 throw new DocumentParseException("No class element");

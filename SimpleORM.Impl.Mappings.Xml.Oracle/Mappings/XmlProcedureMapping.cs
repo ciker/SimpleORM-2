@@ -11,9 +11,9 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 {
     sealed class XmlProcedureMapping : IProcedureMapping
     {
-        public XmlProcedureMapping(XElement xMapping)
+        public XmlProcedureMapping(XDocument xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping, "function");
+            var xClass = XmlUtils.Single(xMapping.Root, "function");
 
             if (xClass == null)
                 throw new DocumentParseException("No function element");

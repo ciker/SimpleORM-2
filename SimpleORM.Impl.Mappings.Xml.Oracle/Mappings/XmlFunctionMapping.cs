@@ -13,9 +13,9 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 {
     sealed class XmlFunctionMapping : IFunctionMapping
     {
-        public XmlFunctionMapping(XElement xMapping)
+        public XmlFunctionMapping(XDocument xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping, "function");
+            var xClass = XmlUtils.Single(xMapping.Root, "function");
 
             if (xClass == null)
                 throw new DocumentParseException("No function element");
@@ -60,9 +60,9 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
                 Parameters.Add(new XmlParameterMapping(Delegate, xProperty));
             }
 
-            if (XmlUtils.Exists(xMapping, "return-value"))
+            if (XmlUtils.Exists(xMapping.Root, "return-value"))
             {
-                var xFunctionReturn = XmlUtils.Single(xMapping, "return-value");
+                var xFunctionReturn = XmlUtils.Single(xMapping.Root, "return-value");
                 Return = new XmlFunctionReturnMapping(xFunctionReturn);
             }
         }

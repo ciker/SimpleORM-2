@@ -1,4 +1,4 @@
-﻿<object-mapping xmlns="urn:orm-oracle-object-mapping">
+﻿<object-mapping xmlns="urn:dbm-oracle-object-mapping">
   <object name="factor_object" schema="bigbet" class="FactorObject">
     <property name="Id" attribute="id" />
 

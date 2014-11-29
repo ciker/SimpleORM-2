@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="urn:orm-view-mapping"
-           targetNamespace="urn:orm-view-mapping"
+<xs:schema xmlns="urn:dbm-view-mapping"
+           targetNamespace="urn:dbm-view-mapping"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            elementFormDefault="qualified"
            attributeFormDefault="unqualified">

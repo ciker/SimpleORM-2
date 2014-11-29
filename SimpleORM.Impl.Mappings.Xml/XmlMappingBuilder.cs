@@ -68,7 +68,7 @@ namespace SimpleORM.Impl.Mappings.Xml
                 var streamReader = new StreamReader(resourceStream);
                 try
                 {
-                    var xMapping = XElement.Parse(streamReader.ReadToEnd());
+                    var xMapping = XDocument.Parse(streamReader.ReadToEnd());
 
                     var mapping = MappingFactory.CreateMapping(xMapping);
 

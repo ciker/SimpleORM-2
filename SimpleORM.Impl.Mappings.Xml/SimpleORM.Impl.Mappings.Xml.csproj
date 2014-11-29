@@ -74,12 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="XSD\ViewMapping.xsd">
+    <EmbeddedResource Include="XSD\ViewMapping.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\TableMapping.xsd">
+    </EmbeddedResource>
+    <EmbeddedResource Include="XSD\TableMapping.xsd">
       <SubType>Designer</SubType>
-    </None>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

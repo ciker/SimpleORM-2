@@ -12,9 +12,9 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlViewMapping : IViewMapping
     {
-        public XmlViewMapping(XElement xMapping)
+        public XmlViewMapping(XDocument xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping, "class");
+            var xClass = XmlUtils.Single(xMapping.Root, "class");
 
             if (xClass == null)
                 throw new DocumentParseException("No class element");

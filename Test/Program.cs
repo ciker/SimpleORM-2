@@ -87,13 +87,35 @@ namespace Test
 
         static void Main(string[] args)
         {
+            var xmlAssembly = Assembly.Load("SimpleORM.Impl.Mappings.Xml");
+            var resourceNames = xmlAssembly.GetManifestResourceNames();
 
-            var xml = XDocument.Parse(File.ReadAllText("c:\\test.xml"));
-            
             var schemas = new XmlSchemaSet();
-            schemas.Add("urn:orm-table-mapping", XmlReader.Create(new StringReader(File.ReadAllText("C:\\test.xsd"))));
-           
-            xml.Validate(schemas,  (sender, e) => Console.WriteLine(e.Message), true);
+            
+            foreach (var resourceName in resourceNames)
+            {
+                Console.WriteLine(resourceName);
+                var stream = xmlAssembly.GetManifestResourceStream(resourceName);
+                schemas.Add(XmlSchema.Read(stream, null));
+            }
+
+            var assembly = Assembly.GetExecutingAssembly();
+            resourceNames = assembly.GetManifestResourceNames();
+
+            foreach (var resourceName in resourceNames)
+            {
+                var stream = assembly.GetManifestResourceStream(resourceName);
+
+                var xDoc = XDocument.Load(stream);
+                Console.WriteLine(xDoc.Root.GetDefaultNamespace());
+                
+                xDoc.Validate(schemas, (sender, e) => Console.WriteLine(e.Message), true);
+            }
+
+//            var xml = XDocument.Parse(File.ReadAllText("c:\\test.xml"));
+//            
+//           
+//            xml.Validate(schemas,  (sender, e) => Console.WriteLine(e.Message), true);
             return;
 
             using (DbConnection connection = new OracleConnection("Data Source=testbb; User Id=bigbet; Password=123;"))

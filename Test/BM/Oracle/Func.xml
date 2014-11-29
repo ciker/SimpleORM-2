@@ -1,4 +1,4 @@
-﻿<function-mapping xmlns="urn:orm-oracle-function-mapping">
+﻿<function-mapping xmlns="urn:dbm-oracle-function-mapping">
   <function name="management.func" schema="bigbet" class="Test.DatabaseFacade+Management" delegate="Func">
     <return-value length="123" db-type="Int64"/>
     

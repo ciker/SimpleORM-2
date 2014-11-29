@@ -13,9 +13,9 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 {
     sealed class XmlObjectMapping : IObjectMapping
     {
-        public XmlObjectMapping(XElement xMapping)
+        public XmlObjectMapping(XDocument xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping, "class");
+            var xClass = XmlUtils.Single(xMapping.Root, "class");
 
             if (xClass == null)
                 throw new DocumentParseException("No class element");
