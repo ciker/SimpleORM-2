@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Xml.Linq;
-using SimpleORM.Impl.Mappings.Xml.Exceptions;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Oracle.Mappings;
 
@@ -8,19 +7,18 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 {
     sealed class XmlObjectTableMapping : IObjectTableMapping
     {
-        public XmlObjectTableMapping(XDocument xMapping)
+        private static readonly XNamespace XNamespace = "urn:dbm-oracle-object-table-mapping";
+
+        public XmlObjectTableMapping(XElement xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping.Root, "class");
+            var xObjectTable = xMapping.Element(XNamespace + "object-table");
 
-            if (xClass == null)
-                throw new DocumentParseException("No class element");
+            Schema = xObjectTable.Attribute("schema").GetAsString();
+            Name = xObjectTable.Attribute("name").Value;
 
-            Schema = XmlUtils.GetAsString(xClass, "@schema");
-            Name = XmlUtils.GetAsString(xClass, "@table");
+            Type = xObjectTable.Attribute("class").GetAsType();
 
-            Type = XmlUtils.GetAsType(xClass, "@name");
-
-            var objectTypeString = XmlUtils.GetAsString(xClass, "@object-type");
+            var objectTypeString = xObjectTable.Attribute("object-type").Value;
 
             ObjectType = TypeUtils.ParseType(objectTypeString, false);
         }

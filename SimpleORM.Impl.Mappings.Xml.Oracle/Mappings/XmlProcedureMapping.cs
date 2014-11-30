@@ -11,22 +11,22 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 {
     sealed class XmlProcedureMapping : IProcedureMapping
     {
-        public XmlProcedureMapping(XDocument xMapping)
+        private static readonly XNamespace XNamespace = "urn:dbm-oracle-procedure-mapping";
+
+        public XmlProcedureMapping(XElement xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping.Root, "function");
+            var xFunction = xMapping.Element(XNamespace + "procedure");
 
-            if (xClass == null)
-                throw new DocumentParseException("No function element");
-
-            Schema = XmlUtils.GetAsString(xClass, "@schema");
-            Name = XmlUtils.GetAsString(xClass, "@table");
+            Schema = xFunction.Attribute("schema").GetAsString();
+            Name = xFunction.Attribute("name").Value;
 
             string delegateFullPath;
 
-            if (XmlUtils.Exists(xClass, "@class"))
+            XAttribute xClass;
+            if (xFunction.TryGetAttribute("class", out xClass))
             {
-                var @class = XmlUtils.GetAsType(xClass, "@class");
-                var delegateName = XmlUtils.GetAsString(xClass, "@delegate");
+                var @class = xClass.GetAsType();
+                var delegateName = xFunction.Attribute("delegate").Value;
 
                 delegateFullPath = string.Format("{0}.{1}", @class, delegateName);
 
@@ -39,7 +39,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
             }
             else
             {
-                Type = XmlUtils.GetAsType(xClass, "@delegate");
+                Type = xFunction.Attribute("delegate").GetAsType();
 
                 delegateFullPath = Type.FullName;
             }
@@ -49,13 +49,10 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 
             Delegate = Type.GetMethod("Invoke");
 
-            if (Delegate.ReturnType != typeof(void))
-                throw new DocumentParseException("'{0}' should return void type", delegateFullPath);
-
             Parameters = new List<IParameterMapping>();
-            foreach (var xProperty in XmlUtils.Select(xClass, "property"))
+            foreach (var xParameter in xFunction.Elements(XNamespace + "parameter"))
             {
-                Parameters.Add(new XmlParameterMapping(Delegate, xProperty));
+                Parameters.Add(new XmlParameterMapping(Delegate, xParameter));
             }
         }
 

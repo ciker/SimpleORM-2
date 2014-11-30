@@ -1,5 +1,5 @@
 ﻿<object-mapping xmlns="urn:dbm-oracle-object-mapping">
-  <object name="factor_object" schema="bigbet" class="FactorObject">
+  <object schema="bigbet" name="factor_object" class="FactorObject">
     <property name="Id" attribute="id" />
 
     <property name="OutcomeId" attribute="outcome_id" />

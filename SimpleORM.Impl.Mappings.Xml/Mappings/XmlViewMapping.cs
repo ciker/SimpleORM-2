@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Xml.Linq;
-using SimpleORM.Impl.Mappings.Xml.Exceptions;
-using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
@@ -12,35 +8,41 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlViewMapping : IViewMapping
     {
-        public XmlViewMapping(XDocument xMapping)
+        private static readonly XNamespace XNamespace = "urn:dbm-view-mapping";
+
+        public XmlViewMapping(XContainer xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping.Root, "class");
+            var xClass = xMapping.Element(XNamespace + "class");
 
-            if (xClass == null)
-                throw new DocumentParseException("No class element");
+            Schema = xClass.Attribute("schema").GetAsString();
+            Name = xClass.Attribute("name").Value;
 
-            Schema = XmlUtils.GetAsString(xClass, "@schema");
-            Name = XmlUtils.GetAsString(xClass, "@table");
-
-            Type = XmlUtils.GetAsType(xClass, "@name");
+            Type = xClass.Attribute("class").GetAsType();
 
             Properties = new List<IPropertyMapping>();
-            foreach (var xProperty in XmlUtils.Select(xClass, "property"))
+            foreach (var xProperty in xClass.Elements(XNamespace + "property"))
             {
                 Properties.Add(new XmlViewPropertyMapping(Type, xProperty));
             }
 
-            var xDiscriminator = XmlUtils.Single(xClass, "discriminator");
-            if (xDiscriminator != null)
+            XElement xDiscriminator;
+            if (xClass.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
+            {
                 Discriminator = new XmlDiscriminatorColumn(xDiscriminator);
+            }
 
             SubClasses = new List<ISubClassMapping>();
-            foreach (var xSubClass in XmlUtils.Select(xClass, "subclass"))
+            foreach (var xSubClass in xClass.Elements(XNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlSubClassMapping(this, xSubClass));
+                SubClasses.Add(new XmlSubClassMapping(this, XNamespace, xSubClass));
+            }
+
+            XAttribute xDiscriminatorValue;
+            if (xClass.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
+            {
+                DiscriminatorValue = TypeUtils.ParseAs(Discriminator.Type, xDiscriminatorValue.Value);
             }
         }
-
 
         public string Name { get; private set; }
 
@@ -53,33 +55,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
         public IDiscriminatorColumn Discriminator { get; private set; }
 
         public IList<ISubClassMapping> SubClasses { get; private set; }
-    }
 
-    sealed class XmlViewPropertyMapping : IViewPropertyMapping
-    {
-        public XmlViewPropertyMapping(Type classType, XElement xTableProperty)
-        {
-            Name = XmlUtils.GetAsString(xTableProperty, "@column");
-            
-            var name = XmlUtils.GetAsString(xTableProperty, "@name");
-
-            Member = classType.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
-
-            if (Member == null)
-                throw new DocumentParseException("Canot find member '{0}'", name);
-
-            if (XmlUtils.Exists(xTableProperty, "@converter"))
-            {
-                var converterTypeString = XmlUtils.GetAsString(xTableProperty, "@converter");
-                Converter = ConverterFactory.Create(converterTypeString);
-            }
-        }
-
-
-        public string Name { get; private set; }
-
-        public MemberInfo Member { get; private set; }
-
-        public IConverter Converter { get; set; }
+        public object DiscriminatorValue { get; private set; }
     }
 }

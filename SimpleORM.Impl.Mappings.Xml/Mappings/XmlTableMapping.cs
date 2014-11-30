@@ -10,55 +10,64 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlTableMapping : ITableMapping
     {
-        public XmlTableMapping(XDocument xMapping)
+        private static readonly XNamespace XNamespace = "urn:dbm-table-mapping";
+
+        public XmlTableMapping(XContainer xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping.Root, "class");
+            var xClass = xMapping.Element(XNamespace + "class");
 
-            if (xClass == null)
-                throw new DocumentParseException("No class element");
+            Schema = xClass.Attribute("schema").GetAsString();
+            Name = xClass.Attribute("name").Value;
 
-            Schema = XmlUtils.GetAsString(xClass, "@schema");
-            Name = XmlUtils.GetAsString(xClass, "@table");
-
-            Type = XmlUtils.GetAsType(xClass, "@name");
+            Type = xClass.Attribute("class").GetAsType();
 
             Properties = new List<IPropertyMapping>();
-            foreach (var xProperty in XmlUtils.Select(xClass, "property"))
+            foreach (var xProperty in xClass.Elements(XNamespace + "property"))
             {
-                Properties.Add(new XmlTablePropertyMapping(Type, xProperty));
+                Properties.Add(new XmlTablePropertyMapping(Type, XNamespace, xProperty));
             }
 
-            var xDiscriminator = XmlUtils.Single(xClass, "discriminator");
-            if (xDiscriminator != null)
+            XElement xDiscriminator;
+            if (xClass.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
+            {
                 Discriminator = new XmlDiscriminatorColumn(xDiscriminator);
+            }
 
             SubClasses = new List<ISubClassMapping>();
-            foreach (var xSubClass in XmlUtils.Select(xClass, "subclass"))
+            foreach (var xSubClass in xClass.Elements(XNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlSubClassMapping(this, xSubClass));
+                SubClasses.Add(new XmlSubClassMapping(this, XNamespace, xSubClass));
             }
 
-            var xVersionProperty = XmlUtils.Single(xClass, "version");
-            if (xVersionProperty != null)
-                VersionProperty = new XmlVersionProperty(this, xVersionProperty);
-
-            var xPrimaryKey = XmlUtils.Single(xClass, "primary-key");
-            if (xPrimaryKey != null)
+            XAttribute xDiscriminatorValue;
+            if (xClass.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
-                PrimaryKeyProperties = new List<IPropertyMapping>();
+                DiscriminatorValue = TypeUtils.ParseAs(Discriminator.Type, xDiscriminatorValue.Value);
+            }
 
-                var properties = Properties.ToDictionary(p => p.Name);
+            XElement xVersionProperty;
+            if (xClass.TryGetElement(XNamespace + "version", out xVersionProperty))
+            {
+                VersionProperty = new XmlVersionProperty(this, xVersionProperty);
+            }
 
-                foreach (var xProperty in XmlUtils.Select(xPrimaryKey, "property"))
-                {
-                    var name = XmlUtils.GetAsString(xProperty, "@name");
+            XElement xPrimaryKey;
+            if (!xClass.TryGetElement(XNamespace + "primary-key", out xPrimaryKey)) 
+                return;
 
-                    IPropertyMapping propertyMapping;
-                    if (!properties.TryGetValue(name, out propertyMapping))
-                        throw new DocumentParseException("Cannot find primary key property '{0}'", name);
+            PrimaryKeyProperties = new List<IPropertyMapping>();
 
-                    PrimaryKeyProperties.Add(propertyMapping);
-                }
+            var properties = Properties.ToDictionary(p => p.Name);
+
+            foreach (var xProperty in xPrimaryKey.Elements(XNamespace + "property"))
+            {
+                var name = xProperty.Attribute("name").Value;
+
+                IPropertyMapping propertyMapping;
+                if (!properties.TryGetValue(name, out propertyMapping))
+                    throw new DocumentParseException("Cannot find primary key property '{0}'", name);
+
+                PrimaryKeyProperties.Add(propertyMapping);
             }
         }
 
@@ -73,6 +82,8 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
         public IDiscriminatorColumn Discriminator { get; private set; }
 
         public IList<ISubClassMapping> SubClasses { get; private set; }
+
+        public object DiscriminatorValue { get; private set; }
 
         public IVersionProperty VersionProperty { get; private set; }
 

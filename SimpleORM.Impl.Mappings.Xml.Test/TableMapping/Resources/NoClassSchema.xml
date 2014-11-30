@@ -1,0 +1,5 @@
+﻿<table-mapping xmlns="urn:dbm-table-mapping">
+  <class name="Event" table="event">
+    <property name="Id" column="id" />
+  </class>
+</table-mapping>

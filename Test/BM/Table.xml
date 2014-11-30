@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<table-mapping xmlns="urn:dbm-table-mapping1">
-  <class name="Event" table="event" schema="bigbet">
+<table-mapping xmlns="urn:dbm-table-mapping">
+  <table schema="bigbet" name="event" class="event">
     <discriminator column="type" type="long"/>
     
     <property name="Id" column="id">
@@ -43,5 +43,5 @@
 
       <property name="StringValue" column="value" />
     </subclass>
-  </class>
+  </table>
 </table-mapping>

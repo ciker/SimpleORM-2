@@ -10,5 +10,7 @@ namespace SimpleORM.Mappings
     public interface IHasSubClasses
     {
         IList<ISubClassMapping> SubClasses { get; }
+
+        object DiscriminatorValue { get; }
     }
 }

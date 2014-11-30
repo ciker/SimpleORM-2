@@ -14,8 +14,8 @@
   </xs:complexType>
 
   <xs:complexType name="object-table-type">
-    <xs:attribute name="name" type="xs:string" use="required" />
     <xs:attribute name="schema" type="xs:string" use="optional" />
+    <xs:attribute name="name" type="xs:string" use="required" />
     <xs:attribute name="class" type="xs:string" use="required" />
     <xs:attribute name="object-class" type="xs:string" use="required" />
   </xs:complexType>

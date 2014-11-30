@@ -1,0 +1,4 @@
+﻿<table-mapping xmlns="urn:dbm-table-mapping">
+  <class name="Event" table="event" schema="bigbet">
+  </class>
+</table-mapping>

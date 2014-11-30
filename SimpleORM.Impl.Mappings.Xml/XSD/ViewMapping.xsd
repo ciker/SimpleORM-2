@@ -9,22 +9,21 @@
 
   <xs:complexType name="view-mapping-type">
     <xs:sequence>
-      <xs:element name="class" type="class-type" minOccurs="1" maxOccurs="1" />
+      <xs:element name="view" type="view-type" minOccurs="1" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="class-type">
+  <xs:complexType name="view-type">
     <xs:sequence>
       <xs:element name="discriminator" type="discriminator-type" minOccurs="0" maxOccurs="1" />
-      <xs:element name="property" type="property-type"  minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="property" type="property-type"  minOccurs="1" maxOccurs="unbounded" />
       <xs:element name="version" type="version-type" minOccurs="0" maxOccurs="1" />
       <xs:element name="subclass" type="subclass-type"  minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
 
-    <xs:attribute name="name" type="xs:string" use="required" />
-    <xs:attribute name="view" type="xs:string" use="required" />
     <xs:attribute name="schema" type="xs:string" use="optional" />
-    <xs:attribute name="abstract" type="xs:boolean" use="optional" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="class" type="xs:string" use="required" />
     <xs:attribute name="discriminator-value" type="xs:string" use="optional" />
   </xs:complexType>
 

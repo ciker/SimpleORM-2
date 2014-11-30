@@ -12,20 +12,19 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
     {
         public XmlVersionProperty(IMapping objectMapping, XElement xVersion)
         {
-            var name = XmlUtils.GetAsString(xVersion, "@name");
+            var name = xVersion.Attribute("name").Value;
 
             Member = objectMapping.Type.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             if (Member == null)
                 throw new DocumentParseException("Canot find member '{0}'", Name);
 
-            Name = XmlUtils.GetAsString(xVersion, "@column");
+            Name = xVersion.Attribute("column").Value;
 
-
-            if (XmlUtils.Exists(xVersion, "@converter"))
+            XAttribute xConverter;
+            if (xVersion.TryGetAttribute("converter", out xConverter))
             {
-                var converterTypeString = XmlUtils.GetAsString(xVersion, "@converter");
-                Converter = ConverterFactory.Create(converterTypeString);
+                Converter = ConverterFactory.Create(xConverter.Value);
             }
         }
 

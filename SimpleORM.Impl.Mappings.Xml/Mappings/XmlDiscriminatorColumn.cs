@@ -11,18 +11,20 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
     {
         public XmlDiscriminatorColumn(XElement xDiscriminator)
         {
-            var typeString = XmlUtils.GetAsString(xDiscriminator, "@type");
+            var typeString = xDiscriminator.Attribute("type").Value;
 
             if (string.IsNullOrEmpty(typeString))
                 throw new DocumentParseException("Discriminator type is empty");
 
             Type = TypeUtils.ParseType(typeString, true);
 
-            var converterTypeString = XmlUtils.GetAsString(xDiscriminator, "@converter");
-            if (converterTypeString != null)
-                Converter = ConverterFactory.Create(converterTypeString);
+            XAttribute xConverter;
+            if (xDiscriminator.TryGetAttribute("converter", out xConverter))
+            {
+                Converter = ConverterFactory.Create(xConverter.Value);
+            }
 
-            Column = XmlUtils.GetAsString(xDiscriminator, "@column");
+            Column = xDiscriminator.Attribute("column").Value;
         }
 
         public Type Type { get; private set; }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
-using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Oracle.Mappings;
 
@@ -13,22 +11,22 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 {
     sealed class XmlFunctionMapping : IFunctionMapping
     {
-        public XmlFunctionMapping(XDocument xMapping)
+        private static readonly XNamespace XNamespace = "urn:dbm-oracle-function-mapping";
+
+        public XmlFunctionMapping(XElement xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping.Root, "function");
+            var xFunction = xMapping.Element(XNamespace + "function");
 
-            if (xClass == null)
-                throw new DocumentParseException("No function element");
-
-            Schema = XmlUtils.GetAsString(xClass, "@schema");
-            Name = XmlUtils.GetAsString(xClass, "@table");
+            Schema = xFunction.Attribute("schema").GetAsString();
+            Name = xFunction.Attribute("name").Value;
 
             string delegateFullPath;
 
-            if (XmlUtils.Exists(xClass, "@class"))
+            XAttribute xClass;
+            if (xFunction.TryGetAttribute("class", out xClass)) 
             {
-                var @class = XmlUtils.GetAsType(xClass, "@class");
-                var delegateName = XmlUtils.GetAsString(xClass, "@delegate");
+                var @class = xClass.GetAsType();
+                var delegateName = xFunction.Attribute("delegate").Value;
 
                 delegateFullPath = string.Format("{0}.{1}", @class, delegateName);
 
@@ -41,7 +39,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
             }
             else
             {
-                Type = XmlUtils.GetAsType(xClass, "@delegate");
+                Type = xFunction.Attribute("delegate").GetAsType();
 
                 delegateFullPath = Type.FullName;
             }
@@ -51,19 +49,16 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 
             Delegate = Type.GetMethod("Invoke");
 
-            if (Delegate.ReturnType == typeof(void))
-                throw new DocumentParseException("'{0}' should return a value", delegateFullPath);
-
             Parameters = new List<IParameterMapping>();
-            foreach (var xProperty in XmlUtils.Select(xClass, "property"))
+            foreach (var xParameter in xFunction.Elements(XNamespace + "parameter"))
             {
-                Parameters.Add(new XmlParameterMapping(Delegate, xProperty));
+                Parameters.Add(new XmlParameterMapping(Delegate, xParameter));
             }
 
-            if (XmlUtils.Exists(xMapping.Root, "return-value"))
+            XElement xReturnValue;
+            if (xMapping.TryGetElement("return-value", out xReturnValue))
             {
-                var xFunctionReturn = XmlUtils.Single(xMapping.Root, "return-value");
-                Return = new XmlFunctionReturnMapping(xFunctionReturn);
+                Return = new XmlFunctionReturnMapping(xReturnValue);
             }
         }
 
@@ -78,30 +73,5 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
         public MethodInfo Delegate { get; private set; }
 
         public IFunctionReturnMapping Return { get; set; }
-    }
-
-    sealed class XmlFunctionReturnMapping : IFunctionReturnMapping
-    {
-        public XmlFunctionReturnMapping(XElement xFunctionReturn)
-        {
-            if (XmlUtils.Exists(xFunctionReturn, "@converter"))
-            {
-                var converterTypeString = XmlUtils.GetAsString(xFunctionReturn, "@converter");
-                Converter = ConverterFactory.Create(converterTypeString);
-            }
-
-            if (XmlUtils.Exists(xFunctionReturn, "@db-type"))
-            {
-                DbType = XmlUtils.GetAsEnum<DbType>(xFunctionReturn, "@db-type");
-            }
-
-            Length = XmlUtils.GetAsInt(xFunctionReturn, "@length");
-        }
-
-        public IConverter Converter { get; private set; }
-
-        public DbType DbType { get; set; }
-
-        public int Length { get; private set; }
     }
 }

@@ -1,19 +1,18 @@
 ﻿using System.Xml.Linq;
 using SimpleORM.Generators;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
-using SimpleORM.Impl.Mappings.Xml.Utils;
 
 namespace SimpleORM.Impl.Mappings.Xml.Factories
 {
     internal static class GeneratorFactory
     {
-        public static IGenerator GetGenerator(XElement xGeneratorElement)
+        public static IGenerator GetGenerator(XNamespace xNamespace, XElement xGeneratorElement)
         {
             var generatorName = xGeneratorElement.Name;
 
             if (generatorName == "sequence")
             {
-                var sequenceName = XmlUtils.GetAsString(xGeneratorElement, "@name");
+                var sequenceName = xGeneratorElement.Attribute("name").Value;
                 return new SequenceGenerator(sequenceName);
             }
 

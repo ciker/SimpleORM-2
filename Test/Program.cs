@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using System.Xml.Schema;
 using Oracle.DataAccess.Client;
 using SimpleORM;
+using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.QueryBuilder;
 
 namespace Test
@@ -87,16 +88,43 @@ namespace Test
 
         static void Main(string[] args)
         {
+
+            var doc = @"
+<table-mapping xmlns='urn:dbm-table-mapping'>
+  <class name='Event' table='event' schema='bigbet'>
+    <temp />
+    <temp />
+  </class>
+</table-mapping>
+    ";
+
+
+            var xElement = XDocument.Parse(doc).Root;
+            
+            var res = xElement.Element("{urn:dbm-table-mapping}class");
+
+            foreach (var element in res.Elements("{urn:dbm-table-mapping}temp"))
+            {
+                Console.WriteLine(element);
+            }
+            return;
+
             var xmlAssembly = Assembly.Load("SimpleORM.Impl.Mappings.Xml");
             var resourceNames = xmlAssembly.GetManifestResourceNames();
 
             var schemas = new XmlSchemaSet();
-            
+
             foreach (var resourceName in resourceNames)
             {
-                Console.WriteLine(resourceName);
                 var stream = xmlAssembly.GetManifestResourceStream(resourceName);
-                schemas.Add(XmlSchema.Read(stream, null));
+
+                if (stream == null)
+                    continue;
+
+                var xmlSchema = XmlSchema.Read(stream, null);
+                schemas.Add(xmlSchema);
+
+                Console.WriteLine(xmlSchema.TargetNamespace);
             }
 
             var assembly = Assembly.GetExecutingAssembly();
@@ -107,15 +135,22 @@ namespace Test
                 var stream = assembly.GetManifestResourceStream(resourceName);
 
                 var xDoc = XDocument.Load(stream);
-                Console.WriteLine(xDoc.Root.GetDefaultNamespace());
+                var @namespace = xDoc.Root.GetDefaultNamespace();
                 
-                xDoc.Validate(schemas, (sender, e) => Console.WriteLine(e.Message), true);
+
+                if (!schemas.Contains(@namespace.NamespaceName))
+                {
+                    Console.WriteLine(@namespace.NamespaceName + " is not supported");
+                    continue;
+                }
+
+                xDoc.Validate(schemas, null, true);
             }
 
-//            var xml = XDocument.Parse(File.ReadAllText("c:\\test.xml"));
-//            
-//           
-//            xml.Validate(schemas,  (sender, e) => Console.WriteLine(e.Message), true);
+            //            var xml = XDocument.Parse(File.ReadAllText("c:\\test.xml"));
+            //            
+            //           
+            //            xml.Validate(schemas,  (sender, e) => Console.WriteLine(e.Message), true);
             return;
 
             using (DbConnection connection = new OracleConnection("Data Source=testbb; User Id=bigbet; Password=123;"))

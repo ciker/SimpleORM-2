@@ -1,5 +1,5 @@
 ﻿<procedure-mapping xmlns="urn:dbm-oracle-procedure-mapping">
-  <procedure name="management.proc" schema="bigbet" delegate="Management.Proc">
+  <procedure schema="bigbet" name="management.proc" delegate="Management.Proc">
     <parameter name="FactorId" db-name="factor_id" />
     
     <parameter name="isReady" db-name="is_ready" converter="YN" db-type="Char" length="1" />

@@ -1,128 +1,101 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
-using System.Xml.XPath;
 
 namespace SimpleORM.Impl.Mappings.Xml.Utils
 {
     public static class XmlUtils
     {
-        public static string GetAsString(XElement element, string xPath, string defaultValue = default(string))
+        public static string GetAsString(this XObject xObject)
         {
-            var enumerable = (IEnumerable)element.XPathEvaluate(xPath);
-
-            var result = enumerable.Cast<XObject>().FirstOrDefault();
-
-            if (result == null)
-                return defaultValue;
-
-            var xElement = result as XElement;
+            var xElement = xObject as XElement;
             if (xElement != null)
-                return (xElement).Value;
+                return xElement.Value;
 
-            var xAttribute = result as XAttribute;
+            var xAttribute = xObject as XAttribute;
             if (xAttribute != null)
-                return (xAttribute).Value;
+                return xAttribute.Value;
 
-            var xText = result as XText;
+            var xText = xObject as XText;
+            if (xText != null)
+                return xText.Value;
 
-            return xText != null ? xText.Value : defaultValue;
+            throw new Exception(string.Format("Cannot get string value from '{0}'", xObject));
         }
 
-        public static int GetAsByte(XElement element, string xPath)
+        public static bool GetAsBoolean(this XObject xObject)
         {
-            var stringValue = GetAsString(element, xPath);
+            var value = xObject.GetAsString();
 
-            return byte.Parse(stringValue);
+            return bool.Parse(value);
         }
 
-        public static int GetAsShort(XElement element, string xPath)
+        public static byte GetAsByte(this XObject xObject)
         {
-            var stringValue = GetAsString(element, xPath);
+            var value = xObject.GetAsString();
 
-            return short.Parse(stringValue);
+            return byte.Parse(value);
         }
 
-        public static int GetAsInt(XElement element, string xPath)
+        public static short GetAsShort(this XObject xObject)
         {
-            var stringValue = GetAsString(element, xPath);
+            var value = xObject.GetAsString();
 
-            return int.Parse(stringValue);
+            return short.Parse(value);
         }
 
-        public static long GetAsLong(XElement element, string xPath)
+        public static int GetAsInt(this XObject xObject)
         {
-            var stringValue = GetAsString(element, xPath);
+            var value = xObject.GetAsString();
 
-            return long.Parse(stringValue);
+            return int.Parse(value);
         }
 
-        public static DateTime GetAsDateTime(XElement element, string xPath)
+        public static long GetAsLong(this XObject xObject)
         {
-            var stringValue = GetAsString(element, xPath);
+            var value = xObject.GetAsString();
 
-            return DateTime.Parse(stringValue);
+            return long.Parse(value);
         }
 
-        public static DateTime GetAsDateTime(XElement element, string xPath, string format)
+        public static Type GetAsType(this XObject xObject)
         {
-            var stringValue = GetAsString(element, xPath);
+            var value = xObject.GetAsString();
 
-            return DateTime.ParseExact(stringValue, format, CultureInfo.InvariantCulture);
+            return Type.GetType(value, true);
         }
 
-        public static Type GetAsType(XElement element, string xPath)
+        public static Guid GetAsGuid(this XObject xObject)
         {
-            var stringValue = GetAsString(element, xPath);
+            var value = xObject.GetAsString();
 
-            return Type.GetType(stringValue, true);
+            return Guid.Parse(value);
         }
 
-        public static bool GetAsBoolean(XElement element, string xPath)
+        public static T GetAsEnum<T>(this XObject xObject)
         {
-            var stringValue = GetAsString(element, xPath);
+            var value = xObject.GetAsString();
 
-            return bool.Parse(stringValue);
+            return (T)Enum.Parse(typeof(T), value);
         }
 
-        public static bool GetAsBoolean(XElement element, string xPath, bool defaultValue)
+        public static bool TryGetElement(this XElement xElement, XName name, out XElement element)
         {
-            var stringValue = GetAsString(element, xPath);
+            element = xElement.Element(name);
 
-            bool result;
-            return bool.TryParse(stringValue, out result) ? result : defaultValue;
+            return element != null;
         }
 
-        public static Guid GetAsGuid(XElement element, string xPath)
+        public static bool TryGetAttribute(this XElement xElement, XName name, out XAttribute attribute)
         {
-            var stringValue = GetAsString(element, xPath);
+            attribute = xElement.Attribute(name);
 
-            return Guid.Parse(stringValue);
+            return attribute != null;
         }
 
-        public static T GetAsEnum<T>(XElement element, string xPath)
+        public static XElement SubElement(this XElement xElement)
         {
-            var str = GetAsString(element, xPath);
-
-            return (T)Enum.Parse(typeof(T), str);
-        }
-
-        public static IEnumerable<XElement> Select(XElement element, string xPath)
-        {
-            return element.XPathSelectElements(xPath);
-        }
-
-        public static XElement Single(XElement element, string xPath)
-        {
-            return element.XPathSelectElement(xPath);
-        }
-
-        public static bool Exists(XElement element, string xPath)
-        {
-            return element.XPathSelectElement(xPath) != null;
+            return xElement.Elements().First();
         }
     }
 }

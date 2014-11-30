@@ -18,27 +18,32 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 
         public XmlParameterMapping(MethodInfo methodInfo, XElement xParameter)
         {
-            DbParameterName = XmlUtils.GetAsString(xParameter, "@db-name");
+            DbParameterName = xParameter.Attribute("db-name").Value;
 
-            var parameterName = XmlUtils.GetAsString(xParameter, "@name");
+            var parameterName = xParameter.Attribute("name").Value;
 
             Parameter = methodInfo.GetParameters().FirstOrDefault(p => p.Name == parameterName);
 
             if (Parameter == null)
                 throw new DocumentParseException("Canot find parameter '{0}'", parameterName);
 
-            if (XmlUtils.Exists(xParameter, "@converter"))
+            XAttribute xConverter;
+            if (xParameter.TryGetAttribute("converter", out xConverter))
             {
-                var converterTypeString = XmlUtils.GetAsString(xParameter, "@converter");
-                Converter = ConverterFactory.Create(converterTypeString);
+                Converter = ConverterFactory.Create(xConverter.Value);
             }
 
-            if (XmlUtils.Exists(xParameter, "@db-type"))
+            XAttribute xDbType;
+            if (xParameter.TryGetAttribute("db-type", out xDbType))
             {
-                DbType = XmlUtils.GetAsEnum<DbType>(xParameter, "@db-type");
+                DbType = xDbType.GetAsEnum<DbType>();
             }
 
-            Length = XmlUtils.GetAsInt(xParameter, "@length");
+            XAttribute xLength;
+            if (xParameter.TryGetAttribute("length", out xLength))
+            {
+                Length = xLength.GetAsInt();
+            }
         }
 
         public IConverter Converter { get; set; }

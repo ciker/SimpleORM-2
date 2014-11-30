@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mappings\XmlFunctionReturnMapping.cs" />
     <Compile Include="Mappings\XmlProcedureMapping.cs" />
     <Compile Include="Mappings\XmlFunctionMapping.cs" />
     <Compile Include="Mappings\XmlObjectTableMapping.cs" />
@@ -62,18 +63,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="XSD\ProcedureMapping.xsd">
+    <EmbeddedResource Include="XSD\ProcedureMapping.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\FunctionMapping.xsd">
+    </EmbeddedResource>
+    <EmbeddedResource Include="XSD\FunctionMapping.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\ObjectTableMapping.xsd">
+    </EmbeddedResource>
+    <EmbeddedResource Include="XSD\ObjectTableMapping.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\ObjectMapping.xsd">
+    </EmbeddedResource>
+    <EmbeddedResource Include="XSD\ObjectMapping.xsd">
       <SubType>Designer</SubType>
-    </None>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

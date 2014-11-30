@@ -8,33 +8,33 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 {
     sealed class XmlSubClassMapping : ISubClassMapping
     {
-        public XmlSubClassMapping(IHasDiscriminatorColumn tableMapping, XElement xSubClass)
+        public XmlSubClassMapping(IHasDiscriminatorColumn tableMapping, XNamespace xNamespace, XElement xSubClass)
         {
-            Type = XmlUtils.GetAsType(xSubClass, "@name");
+            Type = xSubClass.Attribute("name").GetAsType();
 
             Properties = new List<IPropertyMapping>();
-            foreach (var xProperty in XmlUtils.Select(xSubClass, "property"))
+
+            foreach (var xProperty in xSubClass.Elements(xNamespace + "property"))
             {
-                Properties.Add(new XmlTablePropertyMapping(Type, xProperty));
+                Properties.Add(new XmlTablePropertyMapping(Type, xNamespace, xProperty));
             }
 
-            var xDiscriminatorValue = XmlUtils.Single(xSubClass, "@discriminator-value");
-            if (xDiscriminatorValue != null)
+            XAttribute xDiscriminatorValue;
+            if (xSubClass.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
-                var discriminatorValue = XmlUtils.GetAsString(xSubClass, "@discriminator-value");
-                DiscriminatorValue = TypeUtils.ParseAs(tableMapping.Discriminator.Type, discriminatorValue);
+                DiscriminatorValue = TypeUtils.ParseAs(tableMapping.Discriminator.Type, xDiscriminatorValue.Value);
             }
 
             SubClasses = new List<ISubClassMapping>();
-            foreach (var xSubSubClass in XmlUtils.Select(xSubClass, "subclass"))
+            foreach (var xSubSubClass in xSubClass.Elements(xNamespace + "subclass"))
             {
-                SubClasses.Add(new XmlSubClassMapping(tableMapping, xSubSubClass));
+                SubClasses.Add(new XmlSubClassMapping(tableMapping, xNamespace, xSubSubClass));
             }
 
-            var xSubClassJoin = XmlUtils.Single(xSubClass, "join");
-            if (xSubClassJoin != null)
+            XElement xSubClassJoin;
+            if (xSubClass.TryGetElement(xNamespace + "xSubClass", out xSubClassJoin))
             {
-                Join = new XmlSubClassJoin(xSubClassJoin);
+                Join = new XmlSubClassJoin(xNamespace, xSubClassJoin);
             }
         }
 
@@ -51,13 +51,13 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 
     sealed class XmlSubClassJoin : ISubClassJoin
     {
-        public XmlSubClassJoin(XElement xSubClassJoin)
+        public XmlSubClassJoin(XNamespace xNamespace, XElement xSubClassJoin)
         {
-            Schema = XmlUtils.GetAsString(xSubClassJoin, "@schema");
-            Name = XmlUtils.GetAsString(xSubClassJoin, "@table");
+            Schema = xSubClassJoin.Attribute("schema").GetAsString();
+            Name = xSubClassJoin.Attribute("table").Value;
 
             ColumnJoins = new List<ISubClassJoinColumn>();
-            foreach (var xColumn in XmlUtils.Select(xSubClassJoin, "column"))
+            foreach (var xColumn in xSubClassJoin.Elements(xNamespace + "column"))
             {
                 ColumnJoins.Add(new XmlSubClassJoinColumn(xColumn));
             }
@@ -74,10 +74,10 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
     {
         public XmlSubClassJoinColumn(XElement xSubClassJoinColumn)
         {
-            Name = XmlUtils.GetAsString(xSubClassJoinColumn, "@name");
-            JoinSchema = XmlUtils.GetAsString(xSubClassJoinColumn, "@join-schema");
-            JoinTable = XmlUtils.GetAsString(xSubClassJoinColumn, "@join-table");
-            JoinColumn = XmlUtils.GetAsString(xSubClassJoinColumn, "@join-column");
+            Name = xSubClassJoinColumn.Attribute("name").Value;
+            JoinSchema = xSubClassJoinColumn.Attribute("join-schema").GetAsString();
+            JoinTable = xSubClassJoinColumn.Attribute("join-table").Value;
+            JoinColumn = xSubClassJoinColumn.Attribute("join-column").Value;
         }
 
         public string Name { get; private set; }

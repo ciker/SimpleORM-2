@@ -9,7 +9,6 @@ using SimpleORM.Converters;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
 using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Mappings;
-using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.MappingBuilders;
 
 namespace SimpleORM.Impl.Mappings.Xml
@@ -20,8 +19,18 @@ namespace SimpleORM.Impl.Mappings.Xml
 
         static XmlMappingBuilder()
         {
-            RegisterMappingBuilder("table-mapping", xMapping => new XmlTableMapping(xMapping));
-            RegisterMappingBuilder("view-mapping", xMapping => new XmlViewMapping(xMapping));
+            var assembly = Assembly.GetAssembly(typeof(XmlMappingBuilder));
+
+            var tableMappingSchemaStream = assembly.GetManifestResourceStream("SimpleORM.Impl.Mappings.Xml.XSD.TableMapping.xsd");
+            if (tableMappingSchemaStream == null)
+                throw new Exception("Cannot find table mapping schema");
+
+            var viewMappingSchemaStream = assembly.GetManifestResourceStream("SimpleORM.Impl.Mappings.Xml.XSD.ViewMapping.xsd");
+            if (viewMappingSchemaStream == null)
+                throw new Exception("Cannot find view mapping schema");
+
+            RegisterMappingBuilder("table-mapping", new StreamReader(tableMappingSchemaStream), xMapping => new XmlTableMapping(xMapping));
+            RegisterMappingBuilder("view-mapping", new StreamReader(viewMappingSchemaStream),  xMapping => new XmlViewMapping(xMapping));
 
             ConverterFactory.RegisterShorthand<YesNoConverter>("YN");
             ConverterFactory.RegisterShorthand<LowerYesNoConverter>("yn");
@@ -30,9 +39,9 @@ namespace SimpleORM.Impl.Mappings.Xml
             ConverterFactory.RegisterShorthand<LowerTrueFalseConverter>("tf");
         }
 
-        protected static void RegisterMappingBuilder(string documentType, MappingBuilder builder)
+        protected static void RegisterMappingBuilder(string documentType, TextReader schema, MappingBuilder builder)
         {
-            MappingFactory.RegisterMapping(documentType, builder);
+            MappingFactory.RegisterMapping(documentType, schema, builder);
         }
 
         public sealed override void Configure(XElement configuration)
@@ -44,8 +53,8 @@ namespace SimpleORM.Impl.Mappings.Xml
 
             if (source.Name == "assembly-resources")
             {
-                var assemblyName = XmlUtils.GetAsString(source, "name");
-                var resourcesMask = XmlUtils.GetAsString(source, "mask");
+                var assemblyName = source.Attribute("name").Value;
+                var resourcesMask = source.Attribute("mask").Value;
 
                 LoadFromAssembly(assemblyName, resourcesMask);
             }

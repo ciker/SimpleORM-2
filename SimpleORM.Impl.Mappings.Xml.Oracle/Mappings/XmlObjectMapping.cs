@@ -13,20 +13,19 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 {
     sealed class XmlObjectMapping : IObjectMapping
     {
-        public XmlObjectMapping(XDocument xMapping)
+        private static readonly XNamespace XNamespace = "urn:dbm-oracle-object-mapping";
+
+        public XmlObjectMapping(XContainer xMapping)
         {
-            var xClass = XmlUtils.Single(xMapping.Root, "class");
+            var xObject = xMapping.Element(XNamespace + "object");
 
-            if (xClass == null)
-                throw new DocumentParseException("No class element");
+            Schema = xObject.Attribute("schema").GetAsString();
+            Name = xObject.Attribute("name").Value;
 
-            Schema = XmlUtils.GetAsString(xClass, "@schema");
-            Name = XmlUtils.GetAsString(xClass, "@table");
-
-            Type = XmlUtils.GetAsType(xClass, "@name");
+            Type = xObject.Attribute("name").GetAsType();
 
             Properties = new List<IPropertyMapping>();
-            foreach (var xProperty in XmlUtils.Select(xClass, "property"))
+            foreach (var xProperty in xObject.Elements(XNamespace + "property"))
             {
                 Properties.Add(new XmlObjectPropertyMapping(Type, xProperty));
             }
@@ -45,19 +44,19 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
     {
         public XmlObjectPropertyMapping(Type classType, XElement xObjectProperty)
         {
-            Name = XmlUtils.GetAsString(xObjectProperty, "@attribute");
+            Name = xObjectProperty.Attribute("attribute").Value;
             
-            var name = XmlUtils.GetAsString(xObjectProperty, "@name");
+            var name = xObjectProperty.Attribute("name").Value;
 
             Member = classType.GetMember(name, MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault();
 
             if (Member == null)
                 throw new DocumentParseException("Canot find member '{0}'", name);
 
-            if (XmlUtils.Exists(xObjectProperty, "@converter"))
+            XAttribute xConverter;
+            if (xObjectProperty.TryGetAttribute("converter", out xConverter))
             {
-                var converterTypeString = XmlUtils.GetAsString(xObjectProperty, "@converter");
-                Converter = ConverterFactory.Create(converterTypeString);
+                Converter = ConverterFactory.Create(xConverter.Value);
             }
         }
 

@@ -8,7 +8,7 @@ using SimpleORM.Mappings;
 
 namespace SimpleORM.Impl.Mappings.Xml.Factories
 {
-    public delegate IMapping MappingBuilder(XDocument xMapping);
+    public delegate IMapping MappingBuilder(XElement xMapping);
 
     internal static class MappingFactory
     {
@@ -16,9 +16,9 @@ namespace SimpleORM.Impl.Mappings.Xml.Factories
 
         private static readonly IDictionary<string, MappingBuilder> MappingBuilders = new Dictionary<string, MappingBuilder>();
 
-        internal static void RegisterMapping(string documentType, MappingBuilder mappingBuilder)
+        internal static void RegisterMapping(string documentType, TextReader schema, MappingBuilder mappingBuilder)
         {
-            //Schemas.Add(XmlSchema.Read(stream, (sender, args) => ));            
+            Schemas.Add(XmlSchema.Read(schema, null));
             MappingBuilders[documentType] = mappingBuilder;
         }
 
@@ -29,13 +29,20 @@ namespace SimpleORM.Impl.Mappings.Xml.Factories
             if (rootElement == null)
                 throw new Exception("Root element is not found");
 
+            var @namespace = rootElement.GetDefaultNamespace().NamespaceName;
+
+            if (!Schemas.Contains(@namespace))
+                throw new DocumentParseException("Unknown document namespace '{0}'", @namespace);
+
+            xMapping.Validate(Schemas, null);
+
             var documentType = rootElement.Name;
 
             MappingBuilder mappingBuilder;
             if (!MappingBuilders.TryGetValue(documentType.LocalName, out mappingBuilder))
                 throw new DocumentParseException("Unknown document type '{0}'", documentType);
 
-            return mappingBuilder(xMapping);
+            return mappingBuilder(xMapping.Root);
         }
     }
 }
