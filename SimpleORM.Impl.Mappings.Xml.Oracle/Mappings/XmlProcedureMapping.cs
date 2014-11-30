@@ -15,18 +15,23 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
 
         public XmlProcedureMapping(XElement xMapping)
         {
-            var xFunction = xMapping.Element(XNamespace + "procedure");
+            var xProcedure = xMapping.Element(XNamespace + "procedure");
 
-            Schema = xFunction.Attribute("schema").GetAsString();
-            Name = xFunction.Attribute("name").Value;
+            XAttribute xSchema;
+            if (xProcedure.TryGetAttribute("schema", out xSchema))
+            {
+                Schema = xSchema.Value;
+            }
+
+            Name = xProcedure.Attribute("name").Value;
 
             string delegateFullPath;
 
             XAttribute xClass;
-            if (xFunction.TryGetAttribute("class", out xClass))
+            if (xProcedure.TryGetAttribute("class", out xClass))
             {
                 var @class = xClass.GetAsType();
-                var delegateName = xFunction.Attribute("delegate").Value;
+                var delegateName = xProcedure.Attribute("delegate").Value;
 
                 delegateFullPath = string.Format("{0}.{1}", @class, delegateName);
 
@@ -39,7 +44,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
             }
             else
             {
-                Type = xFunction.Attribute("delegate").GetAsType();
+                Type = xProcedure.Attribute("delegate").GetAsType();
 
                 delegateFullPath = Type.FullName;
             }
@@ -50,7 +55,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
             Delegate = Type.GetMethod("Invoke");
 
             Parameters = new List<IParameterMapping>();
-            foreach (var xParameter in xFunction.Elements(XNamespace + "parameter"))
+            foreach (var xParameter in xProcedure.Elements(XNamespace + "parameter"))
             {
                 Parameters.Add(new XmlParameterMapping(Delegate, xParameter));
             }

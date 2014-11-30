@@ -6,7 +6,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Utils
 {
     public static class XmlUtils
     {
-        public static string GetAsString(this XObject xObject)
+        private static string GetAsString(this XObject xObject)
         {
             var xElement = xObject as XElement;
             if (xElement != null)
@@ -26,6 +26,12 @@ namespace SimpleORM.Impl.Mappings.Xml.Utils
         public static bool GetAsBoolean(this XObject xObject)
         {
             var value = xObject.GetAsString();
+
+            if (value == "1")
+                return true;
+
+            if (value == "0")
+                return false;
 
             return bool.Parse(value);
         }

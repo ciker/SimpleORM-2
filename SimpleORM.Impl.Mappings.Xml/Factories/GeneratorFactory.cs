@@ -10,13 +10,13 @@ namespace SimpleORM.Impl.Mappings.Xml.Factories
         {
             var generatorName = xGeneratorElement.Name;
 
-            if (generatorName == "sequence")
+            if (generatorName == xNamespace + "sequence")
             {
                 var sequenceName = xGeneratorElement.Attribute("name").Value;
                 return new SequenceGenerator(sequenceName);
             }
 
-            if (generatorName == "db-assigned")
+            if (generatorName == xNamespace + "db-assigned")
             {
                 return DbAssignedGenerator.Instance;
             }

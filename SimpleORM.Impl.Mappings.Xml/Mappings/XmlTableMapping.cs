@@ -14,45 +14,50 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 
         public XmlTableMapping(XContainer xMapping)
         {
-            var xClass = xMapping.Element(XNamespace + "class");
+            var xTable = xMapping.Element(XNamespace + "table");
 
-            Schema = xClass.Attribute("schema").GetAsString();
-            Name = xClass.Attribute("name").Value;
+            XAttribute xSchema;
+            if (xTable.TryGetAttribute("schema", out xSchema))
+            {
+                Schema = xSchema.Value;
+            }
 
-            Type = xClass.Attribute("class").GetAsType();
+            Name = xTable.Attribute("name").Value;
+
+            Type = xTable.Attribute("class").GetAsType();
 
             Properties = new List<IPropertyMapping>();
-            foreach (var xProperty in xClass.Elements(XNamespace + "property"))
+            foreach (var xProperty in xTable.Elements(XNamespace + "property"))
             {
                 Properties.Add(new XmlTablePropertyMapping(Type, XNamespace, xProperty));
             }
 
             XElement xDiscriminator;
-            if (xClass.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
+            if (xTable.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
             {
                 Discriminator = new XmlDiscriminatorColumn(xDiscriminator);
             }
 
             SubClasses = new List<ISubClassMapping>();
-            foreach (var xSubClass in xClass.Elements(XNamespace + "subclass"))
+            foreach (var xSubClass in xTable.Elements(XNamespace + "subclass"))
             {
                 SubClasses.Add(new XmlSubClassMapping(this, XNamespace, xSubClass));
             }
 
             XAttribute xDiscriminatorValue;
-            if (xClass.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
+            if (xTable.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
                 DiscriminatorValue = TypeUtils.ParseAs(Discriminator.Type, xDiscriminatorValue.Value);
             }
 
             XElement xVersionProperty;
-            if (xClass.TryGetElement(XNamespace + "version", out xVersionProperty))
+            if (xTable.TryGetElement(XNamespace + "version", out xVersionProperty))
             {
                 VersionProperty = new XmlVersionProperty(this, xVersionProperty);
             }
 
             XElement xPrimaryKey;
-            if (!xClass.TryGetElement(XNamespace + "primary-key", out xPrimaryKey)) 
+            if (!xTable.TryGetElement(XNamespace + "primary-key", out xPrimaryKey)) 
                 return;
 
             PrimaryKeyProperties = new List<IPropertyMapping>();

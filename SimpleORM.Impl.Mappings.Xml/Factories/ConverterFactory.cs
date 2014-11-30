@@ -24,19 +24,26 @@ namespace SimpleORM.Impl.Mappings.Xml.Factories
             if (Shorthands.TryGetValue(converterTypeString, out converter))
                 return converter;
 
-            var converterType = Type.GetType(converterTypeString, true);
+            try
+            {
+                var converterType = Type.GetType(converterTypeString, true);
 
-            if (Cache.TryGetValue(converterType, out converter))
+                if (Cache.TryGetValue(converterType, out converter))
+                    return converter;
+
+                if (!typeof(IConverter).IsAssignableFrom(converterType))
+                    throw new DocumentParseException("Illegal converter class '{0}', class must be inherited from '{1}'", converterType.FullName, typeof(IConverter).FullName);
+
+                converter = (IConverter)Activator.CreateInstance(converterType);
+
+                Cache[converterType] = converter;
+
                 return converter;
-
-            if (!typeof(IConverter).IsAssignableFrom(converterType))
-                throw new DocumentParseException("Illegal converter class '{0}', class must be inherited from '{1}'", converterType.FullName, typeof(IConverter).FullName);
-
-            converter = (IConverter)Activator.CreateInstance(converterType);
-
-            Cache[converterType] = converter;
-
-            return converter;
+            }
+            catch (TypeLoadException ex)
+            {
+                throw new DocumentParseException("Cannot load converter", ex);
+            }
         }
     }
 }

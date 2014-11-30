@@ -1,0 +1,5 @@
+﻿<table-mapping xmlns="urn:dbm-table-mapping">
+  <table schema="test_dbm" name="shapes" class="SimpleORM.Impl.Mappings.Xml.Test.TableMapping.Model.PropertyPropertyReference, SimpleORM.Impl.Mappings.Xml.Test">
+    <property name="PrivateProperty" column="id" />
+  </table>
+</table-mapping>

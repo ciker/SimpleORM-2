@@ -53,7 +53,12 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
     {
         public XmlSubClassJoin(XNamespace xNamespace, XElement xSubClassJoin)
         {
-            Schema = xSubClassJoin.Attribute("schema").GetAsString();
+            XAttribute xSchema;
+            if (xSubClassJoin.TryGetAttribute("schema", out xSchema))
+            {
+                Schema = xSchema.Value;
+            }
+
             Name = xSubClassJoin.Attribute("table").Value;
 
             ColumnJoins = new List<ISubClassJoinColumn>();
@@ -74,8 +79,13 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
     {
         public XmlSubClassJoinColumn(XElement xSubClassJoinColumn)
         {
+            XAttribute xSchema;
+            if (xSubClassJoinColumn.TryGetAttribute("schema", out xSchema))
+            {
+                JoinSchema = xSchema.Value;
+            }
+
             Name = xSubClassJoinColumn.Attribute("name").Value;
-            JoinSchema = xSubClassJoinColumn.Attribute("join-schema").GetAsString();
             JoinTable = xSubClassJoinColumn.Attribute("join-table").Value;
             JoinColumn = xSubClassJoinColumn.Attribute("join-column").Value;
         }

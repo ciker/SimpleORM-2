@@ -34,7 +34,14 @@ namespace SimpleORM.Impl.Mappings.Xml.Factories
             if (!Schemas.Contains(@namespace))
                 throw new DocumentParseException("Unknown document namespace '{0}'", @namespace);
 
-            xMapping.Validate(Schemas, null);
+            try
+            {
+                xMapping.Validate(Schemas, null);
+            }
+            catch (Exception ex)
+            {
+                throw new DocumentParseException("Cannot validate document", ex);
+            }
 
             var documentType = rootElement.Name;
 

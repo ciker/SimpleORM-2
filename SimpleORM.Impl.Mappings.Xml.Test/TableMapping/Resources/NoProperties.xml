@@ -1,4 +1,3 @@
 ﻿<table-mapping xmlns="urn:dbm-table-mapping">
-  <class name="Event" table="event" schema="bigbet">
-  </class>
+  <table schema="test_dbm" name="shapes" class="SimpleORM.Impl.Mappings.Xml.Test.TableMapping.Model.Shape, SimpleORM.Impl.Mappings.Xml.Test" />
 </table-mapping>

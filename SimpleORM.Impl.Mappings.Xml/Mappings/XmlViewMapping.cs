@@ -12,33 +12,38 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
 
         public XmlViewMapping(XContainer xMapping)
         {
-            var xClass = xMapping.Element(XNamespace + "class");
+            var xView = xMapping.Element(XNamespace + "view");
 
-            Schema = xClass.Attribute("schema").GetAsString();
-            Name = xClass.Attribute("name").Value;
+            XAttribute xSchema;
+            if (xView.TryGetAttribute("schema", out xSchema))
+            {
+                Schema = xSchema.Value;
+            }
 
-            Type = xClass.Attribute("class").GetAsType();
+            Name = xView.Attribute("name").Value;
+
+            Type = xView.Attribute("class").GetAsType();
 
             Properties = new List<IPropertyMapping>();
-            foreach (var xProperty in xClass.Elements(XNamespace + "property"))
+            foreach (var xProperty in xView.Elements(XNamespace + "property"))
             {
                 Properties.Add(new XmlViewPropertyMapping(Type, xProperty));
             }
 
             XElement xDiscriminator;
-            if (xClass.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
+            if (xView.TryGetElement(XNamespace + "discriminator", out xDiscriminator))
             {
                 Discriminator = new XmlDiscriminatorColumn(xDiscriminator);
             }
 
             SubClasses = new List<ISubClassMapping>();
-            foreach (var xSubClass in xClass.Elements(XNamespace + "subclass"))
+            foreach (var xSubClass in xView.Elements(XNamespace + "subclass"))
             {
                 SubClasses.Add(new XmlSubClassMapping(this, XNamespace, xSubClass));
             }
 
             XAttribute xDiscriminatorValue;
-            if (xClass.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
+            if (xView.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
                 DiscriminatorValue = TypeUtils.ParseAs(Discriminator.Type, xDiscriminatorValue.Value);
             }

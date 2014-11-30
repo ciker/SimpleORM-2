@@ -17,7 +17,12 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
         {
             var xFunction = xMapping.Element(XNamespace + "function");
 
-            Schema = xFunction.Attribute("schema").GetAsString();
+            XAttribute xSchema;
+            if (xFunction.TryGetAttribute("schema", out xSchema))
+            {
+                Schema = xSchema.Value;
+            }
+
             Name = xFunction.Attribute("name").Value;
 
             string delegateFullPath;

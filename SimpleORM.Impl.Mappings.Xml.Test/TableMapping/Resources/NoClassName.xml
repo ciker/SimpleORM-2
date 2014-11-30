@@ -1,5 +1,5 @@
 ﻿<table-mapping xmlns="urn:dbm-table-mapping">
-  <class name="Event" table="event">
+  <table schema="test_dbm" table="shapes">
     <property name="Id" column="id" />
-  </class>
+  </table>
 </table-mapping>

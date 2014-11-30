@@ -13,7 +13,12 @@ namespace SimpleORM.Impl.Mappings.Xml.Oracle.Mappings
         {
             var xObjectTable = xMapping.Element(XNamespace + "object-table");
 
-            Schema = xObjectTable.Attribute("schema").GetAsString();
+            XAttribute xSchema;
+            if (xObjectTable.TryGetAttribute("schema", out xSchema))
+            {
+                Schema = xSchema.Value;
+            }
+
             Name = xObjectTable.Attribute("name").Value;
 
             Type = xObjectTable.Attribute("class").GetAsType();

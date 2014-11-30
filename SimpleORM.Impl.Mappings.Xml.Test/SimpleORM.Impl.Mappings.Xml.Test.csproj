@@ -52,8 +52,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ConverterFactoryUnitTest.cs" />
+    <Compile Include="Converters\PseudoConverter.cs" />
     <Compile Include="ParseTypeUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TableMapping\Model\PropertyPublicFieldReference.cs" />
+    <Compile Include="TableMapping\Model\Shape.cs" />
     <Compile Include="TableMapping\TableMappingUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +76,88 @@
     <EmbeddedResource Include="TableMapping\Resources\NoProperties.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\NoClassSchema.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\NoSchema.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\NoTableName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\NoClassName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckClassAttributes.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\NoPropertyName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\NoPropertyColumn.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyOptionalAttributes.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyInsertTrue.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyInsertFalse.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyInsertTrue1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyInsertFalse0.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyConverterShorthand.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyConverter.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPseudoConverter.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyWrongConverter.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyEmptyGenerator.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyWrongGenerator.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyDbAssignedGenerator.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertySequenceGenerator.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\NoSequenceGeneratorName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPublicFieldReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPrivateFieldReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyStaticFieldReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyStaticPropertyReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPublicPropertyReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPrivatePropertyReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyNoSetterPropertyReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyNoGetterPropertyReference.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
