@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using SimpleORM.Impl.Mappings.Xml.Exceptions;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
@@ -22,7 +23,19 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
             XAttribute xDiscriminatorValue;
             if (xSubClass.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
-                DiscriminatorValue = TypeUtils.ParseAs(tableMapping.Discriminator.Type, xDiscriminatorValue.Value);
+                var discriminator = tableMapping.Discriminator;
+
+                if (discriminator == null)
+                    throw new DocumentParseException("Cannot parse subclass discriminator value, unknown discriminator type");
+
+                try
+                {
+                    DiscriminatorValue = TypeUtils.ParseAs(discriminator.Type, xDiscriminatorValue.Value);
+                }
+                catch (Exception ex)
+                {
+                    throw new DocumentParseException(string.Format("Cannot parse subclass discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, discriminator.Type), ex);
+                }
             }
 
             SubClasses = new List<ISubClassMapping>();

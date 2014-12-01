@@ -55,7 +55,9 @@
     <Compile Include="Converters\PseudoConverter.cs" />
     <Compile Include="ParseTypeUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableMapping\Model\PropertyPublicFieldReference.cs" />
+    <Compile Include="TableMapping\Model\PrimaryKeyMemberReference.cs" />
+    <Compile Include="TableMapping\Model\VersionMemberReference.cs" />
+    <Compile Include="TableMapping\Model\PropertyMemberReference.cs" />
     <Compile Include="TableMapping\Model\Shape.cs" />
     <Compile Include="TableMapping\TableMappingUnitTest.cs" />
   </ItemGroup>
@@ -73,91 +75,192 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\NoProperties.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Class\NoProperties.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\NoSchema.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Class\NoSchema.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\NoTableName.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Class\NoTableName.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\NoClassName.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Class\NoClassName.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckClassAttributes.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Class\CheckClassAttributes.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\NoPropertyName.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\NoPropertyName.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\NoPropertyColumn.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\NoPropertyColumn.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyOptionalAttributes.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyOptionalAttributes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyInsertTrue.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyInsertTrue.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyInsertFalse.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyInsertFalse.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyInsertTrue1.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyInsertTrue1.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyInsertFalse0.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyInsertFalse0.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyConverterShorthand.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyConverterShorthand.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyConverter.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyConverter.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPseudoConverter.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyPseudoConverter.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyWrongConverter.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyWrongConverter.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyEmptyGenerator.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyEmptyGenerator.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyWrongGenerator.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyWrongGenerator.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyDbAssignedGenerator.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyDbAssignedGenerator.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertySequenceGenerator.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertySequenceGenerator.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\NoSequenceGeneratorName.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\NoSequenceGeneratorName.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPublicFieldReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionPublicFieldReference.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPrivateFieldReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionPrivateFieldReference.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyStaticFieldReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionStaticFieldReference.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyStaticPropertyReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionStaticPropertyReference.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPublicPropertyReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionPublicPropertyReference.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyPrivatePropertyReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionPrivatePropertyReference.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyNoSetterPropertyReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionNoSetterPropertyReference.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TableMapping\Resources\CheckPropertyNoGetterPropertyReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionNoGetterPropertyReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Discriminator\NoDiscriminatorColumnName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Discriminator\NoDiscriminatorColumnType.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Discriminator\WrongDiscriminatorColumnType.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Discriminator\CheckDiscriminatorColumnAttributes.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Version\NoVersionPropertyName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Version\NoVersionColumnName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionColumnName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionNullConverter.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionPseudoConverter.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionWrongConverter.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionConverter.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Version\CheckVersionConverterShorthand.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyNoGetterPropertyReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyNoSetterPropertyReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyPrivateFieldReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyPrivatePropertyReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyPublicFieldReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyPublicPropertyReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyStaticFieldReference.xml" />
+    <EmbeddedResource Include="TableMapping\Resources\Property\CheckPropertyStaticPropertyReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Class\DiscriminatorValueWithoutColumn.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Class\WrongDiscriminatorValueType.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Class\CheckDiscriminatorStringValue.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Class\CheckDiscriminatorLongValue.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\PrimaryKey\NoPrimaryKeyName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\PrimaryKey\WrongPrimaryKeyName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\PrimaryKey\CheckPrimaryKeyPropertyReference.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Subclass\NoSubclassName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckSubclassName.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckDiscriminatorLongValue.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Subclass\CheckDiscriminatorStringValue.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Subclass\DiscriminatorValueWithoutColumn.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TableMapping\Resources\Subclass\WrongDiscriminatorValueType.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

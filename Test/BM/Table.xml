@@ -2,10 +2,10 @@
 <table-mapping xmlns="urn:dbm-table-mapping">
   <table schema="bigbet" name="event" class="event">
     <discriminator column="type" type="long"/>
-    
+
     <property name="Id" column="id">
       <generator>
-        <sequence name="seq_name" />        
+        <sequence name="seq_name" />
       </generator>
     </property>
 
@@ -25,7 +25,7 @@
       <property name="Id" />
       <property name="CreationTimeAndZone" />
     </primary-key>
-    
+
     <subclass name="RegularEvent" discriminator-value="1">
       <join table="regular_event">
         <column name="event_id" join-table="event" join-column="id" />

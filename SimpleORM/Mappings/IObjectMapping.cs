@@ -10,17 +10,17 @@ namespace SimpleORM.Mappings
 
     public interface IDiscriminatorColumn
     {
-        Type Type { get; }
-
-        IConverter Converter { get; set; }
-
         string Column { get; }
+
+        Type Type { get; }
     }
 
     public interface ITableViewMapping : IMapping, IHasProperties, IHasDiscriminatorColumn, IHasSubClasses { }
 
     public interface ISubClassMapping : IHasProperties, IHasSubClasses
     {
+        Type Type { get; }
+
         ISubClassJoin Join { get; }
     }
 

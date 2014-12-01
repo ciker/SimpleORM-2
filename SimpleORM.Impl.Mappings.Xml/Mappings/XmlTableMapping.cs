@@ -47,7 +47,17 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
             XAttribute xDiscriminatorValue;
             if (xTable.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
-                DiscriminatorValue = TypeUtils.ParseAs(Discriminator.Type, xDiscriminatorValue.Value);
+                if (Discriminator == null)
+                    throw new DocumentParseException("Cannot parse class discriminator value, unknown discriminator type");
+
+                try
+                {
+                    DiscriminatorValue = TypeUtils.ParseAs(Discriminator.Type, xDiscriminatorValue.Value);
+                }
+                catch (Exception ex)
+                {
+                    throw new DocumentParseException(string.Format("Cannot parse class discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, Discriminator.Type), ex);
+                }
             }
 
             XElement xVersionProperty;

@@ -1,0 +1,7 @@
+﻿<table-mapping xmlns="urn:dbm-table-mapping">
+  <table schema="test_dbm" name="shapes" class="SimpleORM.Impl.Mappings.Xml.Test.TableMapping.Model.Shape, SimpleORM.Impl.Mappings.Xml.Test">
+    <property name="Id" column="id" />
+
+    <version name="Version" column="version" converter="SimpleORM.Converters.LowerYesNoConverter, SimpleORM"/>
+  </table>
+</table-mapping>

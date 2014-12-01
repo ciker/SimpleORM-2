@@ -3,6 +3,8 @@
     public class Shape
     {
         public long Id { get; set; }
+
+        public long Version { get; set; }
     }
 
     public class TwoDimensionalShape : Shape
@@ -12,7 +14,7 @@
         public long Y { get; set; }
     }
 
-    public class Recangle : TwoDimensionalShape
+    public class Rectangle : TwoDimensionalShape
     {
         public long Width { get; set; }
         
