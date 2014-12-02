@@ -4,17 +4,16 @@ using System.Reflection;
 using System.Xml.Linq;
 using NUnit.Framework;
 using SimpleORM.Converters;
-using SimpleORM.Generators;
 using SimpleORM.Impl.Mappings.Xml.Exceptions;
 using SimpleORM.Impl.Mappings.Xml.Factories;
 using SimpleORM.Impl.Mappings.Xml.Mappings;
-using SimpleORM.Impl.Mappings.Xml.Test.TableMapping.Model;
+using SimpleORM.Impl.Mappings.Xml.Test.ViewMapping.Model;
 using SimpleORM.Mappings;
 
-namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
+namespace SimpleORM.Impl.Mappings.Xml.Test.ViewMapping
 {
     [TestFixture]
-    class TableMappingUnitTest
+    class ViewMappingUnitTest
     {
         private Assembly _currentAssembly;
 
@@ -24,12 +23,12 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
             //Register builders and schemas
             new XmlMappingBuilder();
 
-            _currentAssembly = Assembly.GetAssembly(typeof(TableMappingUnitTest));
+            _currentAssembly = Assembly.GetAssembly(typeof(ViewMappingUnitTest));
         }
 
         private XDocument GetMappingDocument(string resourceName)
         {
-            resourceName = "SimpleORM.Impl.Mappings.Xml.Test.TableMapping.Resources." + resourceName;
+            resourceName = "SimpleORM.Impl.Mappings.Xml.Test.ViewMapping.Resources." + resourceName;
             var stream = _currentAssembly.GetManifestResourceStream(resourceName);
             if (stream == null)
                 throw new Exception(string.Format("Cannot find resource '{0}'", resourceName));
@@ -47,17 +46,17 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
 
         [Test]
         [ExpectedException(typeof(DocumentParseException))]
-        public void NoTableName()
+        public void NoViewName()
         {
-            var document = GetMappingDocument("Class.NoTableName.xml");
+            var document = GetMappingDocument("Class.NoViewName.xml");
             MappingFactory.CreateMapping(document);
         }
 
         [Test]
         [ExpectedException(typeof(DocumentParseException))]
-        public void NoClassName()
+        public void NoViewClass()
         {
-            var document = GetMappingDocument("Class.NoClassName.xml");
+            var document = GetMappingDocument("Class.NoViewClass.xml");
             MappingFactory.CreateMapping(document);
         }
 
@@ -74,7 +73,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void NoDiscriminatorValue()
         {
             var document = GetMappingDocument("Class.CheckClassAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
 
             Assert.IsNull(mapping.DiscriminatorValue);
         }
@@ -98,7 +97,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void CheckClassName()
+        public void CheckViewClass()
         {
             var document = GetMappingDocument("Class.CheckClassAttributes.xml");
             var mapping = MappingFactory.CreateMapping(document);
@@ -112,7 +111,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
             var document = GetMappingDocument("Class.CheckClassAttributes.xml");
             var mapping = MappingFactory.CreateMapping(document);
 
-            Assert.IsInstanceOf<XmlTableMapping>(mapping);
+            Assert.IsInstanceOf<XmlViewMapping>(mapping);
         }
 
         [Test]
@@ -135,7 +134,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckClassDiscriminatorStringValue()
         {
             var document = GetMappingDocument("Class.CheckDiscriminatorStringValue.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             Assert.AreEqual("Shape", mapping.DiscriminatorValue);
         }
 
@@ -143,7 +142,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckClassDiscriminatorLongValue()
         {
             var document = GetMappingDocument("Class.CheckDiscriminatorLongValue.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             Assert.AreEqual(123L, mapping.DiscriminatorValue);
         }
 
@@ -164,83 +163,20 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         }
 
         [Test]
-        public void NoPropertyInsert()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyOptionalAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            Assert.IsTrue(idProperty.Insert);
-        }
-
-        [Test]
-        public void NoPropertyUpdate()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyOptionalAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            Assert.IsTrue(idProperty.Update);
-        }
-
-        [Test]
         public void NoPropertyConverter()
         {
             var document = GetMappingDocument("Property.CheckPropertyOptionalAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
+            var idProperty = (IViewPropertyMapping)mapping.Properties.First();
             Assert.IsNull(idProperty.Converter);
-        }
-
-        [Test]
-        public void NoPropertyGenerator()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyOptionalAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            Assert.IsNull(idProperty.Generator);
-        }
-
-        [Test]
-        public void CheckPropertyInsertTrue()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyInsertTrue.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            Assert.IsTrue(idProperty.Insert);
-        }
-
-        [Test]
-        public void CheckPropertyInsertFalse()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyInsertFalse.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            Assert.IsFalse(idProperty.Insert);
-        }
-
-        [Test]
-        public void CheckPropertyInsertTrue1()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyInsertTrue1.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            Assert.IsTrue(idProperty.Insert);
-        }
-
-        [Test]
-        public void CheckPropertyInsertFalse0()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyInsertFalse0.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            Assert.IsFalse(idProperty.Insert);
         }
 
         [Test]
         public void CheckPropertyPublicFieldReference()
         {
             var document = GetMappingDocument("Property.CheckPropertyPublicFieldReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
+            var idProperty = (IViewPropertyMapping)mapping.Properties.First();
             var fieldInfo = typeof(PropertyFieldReference).GetMember("Field", BindingFlags.Instance | BindingFlags.Public).First();
             Assert.AreEqual(fieldInfo, idProperty.Member);
         }
@@ -249,8 +185,8 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckPropertyPrivateFieldReference()
         {
             var document = GetMappingDocument("Property.CheckPropertyPrivateFieldReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
+            var idProperty = (IViewPropertyMapping)mapping.Properties.First();
             var fieldInfo = typeof(PropertyFieldReference).GetMember("_field", BindingFlags.Instance | BindingFlags.NonPublic).First();
             Assert.AreEqual(fieldInfo, idProperty.Member);
         }
@@ -267,8 +203,8 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckPropertyPublicPropertyReference()
         {
             var document = GetMappingDocument("Property.CheckPropertyPublicPropertyReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
+            var idProperty = (IViewPropertyMapping)mapping.Properties.First();
             var propertyInfo = typeof(PropertyPropertyReference).GetMember("PublicProperty", BindingFlags.Instance | BindingFlags.Public).First();
             Assert.AreEqual(propertyInfo, idProperty.Member);
         }
@@ -277,8 +213,8 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckPropertyPrivatePropertyReference()
         {
             var document = GetMappingDocument("Property.CheckPropertyPrivatePropertyReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
+            var idProperty = (IViewPropertyMapping)mapping.Properties.First();
             var propertyInfo = typeof(PropertyPropertyReference).GetMember("PrivateProperty", BindingFlags.Instance | BindingFlags.NonPublic).First();
             Assert.AreEqual(propertyInfo, idProperty.Member);
         }
@@ -287,7 +223,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckPropertyNoSetterPropertyReference()
         {
             var document = GetMappingDocument("Property.CheckPropertyNoSetterPropertyReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var idProperty = mapping.Properties.First();
             var propertyInfo = typeof(PropertyPropertyReference).GetMember("NoSetterProperty", BindingFlags.Instance | BindingFlags.Public).First();
             Assert.AreEqual(propertyInfo, idProperty.Member);
@@ -297,7 +233,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckPropertyNoGetterPropertyReference()
         {
             var document = GetMappingDocument("Property.CheckPropertyNoGetterPropertyReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var idProperty = mapping.Properties.First();
             var propertyInfo = typeof(PropertyPropertyReference).GetMember("NoGetterProperty", BindingFlags.Instance | BindingFlags.Public).First();
             Assert.AreEqual(propertyInfo, idProperty.Member);
@@ -315,8 +251,8 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckPropertyConverterShorthand()
         {
             var document = GetMappingDocument("Property.CheckPropertyConverterShorthand.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
+            var idProperty = (IViewPropertyMapping)mapping.Properties.First();
             Assert.IsInstanceOf<YesNoConverter>(idProperty.Converter);
         }
 
@@ -324,8 +260,8 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckPropertyConverter()
         {
             var document = GetMappingDocument("Property.CheckPropertyConverter.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
+            var idProperty = (IViewPropertyMapping)mapping.Properties.First();
             Assert.IsInstanceOf<LowerYesNoConverter>(idProperty.Converter);
         }
 
@@ -342,58 +278,6 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckPropertyUnknownConverter()
         {
             var document = GetMappingDocument("Property.CheckPropertyWrongConverter.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void CheckPropertyEmptyGenerator()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyEmptyGenerator.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void CheckPropertyWrongGenerator()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyWrongGenerator.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        public void CheckPropertyDbAssignedGenerator()
-        {
-            var document = GetMappingDocument("Property.CheckPropertyDbAssignedGenerator.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            Assert.IsInstanceOf<DbAssignedGenerator>(idProperty.Generator);
-        }
-
-        [Test]
-        public void CheckPropertySequenceGenerator()
-        {
-            var document = GetMappingDocument("Property.CheckPropertySequenceGenerator.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            Assert.IsInstanceOf<SequenceGenerator>(idProperty.Generator);
-        }
-
-        [Test]
-        public void CheckPropertySequenceGeneratorName()
-        {
-            var document = GetMappingDocument("Property.CheckPropertySequenceGenerator.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = (ITablePropertyMapping)mapping.Properties.First();
-            var sequenceGenerator = (SequenceGenerator)idProperty.Generator;
-            Assert.AreEqual(sequenceGenerator.Name, "seq_shapes");
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void NoSequenceGeneratorName()
-        {
-            var document = GetMappingDocument("Property.NoSequenceGeneratorName.xml");
             MappingFactory.CreateMapping(document);
         }
 
@@ -425,7 +309,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckDiscriminatorColumnName()
         {
             var document = GetMappingDocument("Discriminator.CheckDiscriminatorColumnAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var discriminator = mapping.Discriminator;
             Assert.AreEqual("type", discriminator.Column);
         }
@@ -434,182 +318,9 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckDiscriminatorColumnType()
         {
             var document = GetMappingDocument("Discriminator.CheckDiscriminatorColumnAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var discriminator = mapping.Discriminator;
             Assert.AreEqual(typeof(string), discriminator.Type);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void NoVersionPropertyName()
-        {
-            var document = GetMappingDocument("Version.NoVersionPropertyName.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void NoVersionColumnName()
-        {
-            var document = GetMappingDocument("Version.NoVersionColumnName.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        public void CheckVersionColumnName()
-        {
-            var document = GetMappingDocument("Version.CheckVersionColumnName.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var versionProperty = mapping.VersionProperty;
-            Assert.AreEqual("version", versionProperty.Name);
-        }
-
-        [Test]
-        public void CheckVersionNullConverter()
-        {
-            var document = GetMappingDocument("Version.CheckVersionNullConverter.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var versionProperty = mapping.VersionProperty;
-            Assert.IsNull(versionProperty.Converter);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void CheckVersionPseudoConverter()
-        {
-            var document = GetMappingDocument("Version.CheckVersionPseudoConverter.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        public void CheckVersionConverter()
-        {
-            var document = GetMappingDocument("Version.CheckVersionConverter.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var versionProperty = mapping.VersionProperty;
-            Assert.IsInstanceOf<LowerYesNoConverter>(versionProperty.Converter);
-        }    
-        
-        [Test]
-        public void CheckVersionConverterShorthand()
-        {
-            var document = GetMappingDocument("Version.CheckVersionConverterShorthand.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var versionProperty = mapping.VersionProperty;
-            Assert.IsInstanceOf<YesNoConverter>(versionProperty.Converter);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void CheckVersionWrongConverter()
-        {
-            var document = GetMappingDocument("Version.CheckVersionWrongConverter.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        public void CheckVersionNoGetterPropertyReference()
-        {
-            var document = GetMappingDocument("Version.CheckVersionNoGetterPropertyReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = mapping.VersionProperty;
-            var propertyInfo = typeof(VersionPropertyReference).GetMember("NoGetterProperty", BindingFlags.Instance | BindingFlags.Public).First();
-            Assert.AreEqual(propertyInfo, idProperty.Member);
-        }
-
-        [Test]
-        public void CheckVersionNoSetterPropertyReference()
-        {
-            var document = GetMappingDocument("Version.CheckVersionNoSetterPropertyReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = mapping.VersionProperty;
-            var propertyInfo = typeof(VersionPropertyReference).GetMember("NoSetterProperty", BindingFlags.Instance | BindingFlags.Public).First();
-            Assert.AreEqual(propertyInfo, idProperty.Member);
-        }
-
-        [Test]
-        public void CheckVersionPrivateFieldReference()
-        {
-            var document = GetMappingDocument("Version.CheckVersionPrivateFieldReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = mapping.VersionProperty;
-            var fieldInfo = typeof(VersionFieldReference).GetMember("_field", BindingFlags.Instance | BindingFlags.NonPublic).First();
-            Assert.AreEqual(fieldInfo, idProperty.Member);
-        }
-
-        [Test]
-        public void CheckVersionPrivatePropertyReference()
-        {
-            var document = GetMappingDocument("Version.CheckVersionPrivatePropertyReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = mapping.VersionProperty;
-            var fieldInfo = typeof(VersionPropertyReference).GetMember("PrivateProperty", BindingFlags.Instance | BindingFlags.NonPublic).First();
-            Assert.AreEqual(fieldInfo, idProperty.Member);
-        }
-
-        [Test]
-        public void CheckVersionPublicFieldReference()
-        {
-            var document = GetMappingDocument("Version.CheckVersionPublicFieldReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = mapping.VersionProperty;
-            var fieldInfo = typeof(VersionFieldReference).GetMember("Field", BindingFlags.Instance | BindingFlags.Public).First();
-            Assert.AreEqual(fieldInfo, idProperty.Member);
-        }
-
-        [Test]
-        public void CheckVersionPublicPropertyReference()
-        {
-            var document = GetMappingDocument("Version.CheckVersionPublicPropertyReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var idProperty = mapping.VersionProperty;
-            var fieldInfo = typeof(VersionPropertyReference).GetMember("PublicProperty", BindingFlags.Instance | BindingFlags.Public).First();
-            Assert.AreEqual(fieldInfo, idProperty.Member);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void CheckVersionStaticFieldReference()
-        {
-            var document = GetMappingDocument("Version.CheckVersionStaticFieldReference.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void CheckVersionStaticPropertyReference()
-        {
-            var document = GetMappingDocument("Version.CheckVersionStaticPropertyReference.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void NoPrimaryKeyName()
-        {
-            var document = GetMappingDocument("PrimaryKey.NoPrimaryKeyName.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void WrongPrimaryKeyName()
-        {
-            var document = GetMappingDocument("PrimaryKey.WrongPrimaryKeyName.xml");
-            MappingFactory.CreateMapping(document);
-        }
-
-        [Test]
-        [ExpectedException(typeof(DocumentParseException))]
-        public void CheckPrimaryKeyPropertyReference()
-        {
-            var document = GetMappingDocument("PrimaryKey.CheckPrimaryKeyPropertyReference.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
-            var primaryKeyProperties = mapping.PrimaryKeyProperties.ToArray();
-            var idPropertyInfo = typeof(PrimaryKeyMemberReference).GetMember("Id", BindingFlags.Instance | BindingFlags.Public).First();
-            var timeAndZoneFieldInfo = typeof(PrimaryKeyMemberReference).GetMember("TimeAndZone", BindingFlags.Instance | BindingFlags.Public).First();
-            Assert.Contains(idPropertyInfo, primaryKeyProperties);
-            Assert.Contains(timeAndZoneFieldInfo, primaryKeyProperties);
         }
 
         [Test]
@@ -624,7 +335,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassName()
         {
             var document = GetMappingDocument("Subclass.CheckSubclassName.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             Assert.AreEqual(typeof(Rectangle), subClassMapping.Type);
         }
@@ -649,7 +360,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassDiscriminatorStringValue()
         {
             var document = GetMappingDocument("Subclass.CheckDiscriminatorStringValue.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             Assert.AreEqual("Rectangle", subClassMapping.DiscriminatorValue);
         }
@@ -658,7 +369,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassDiscriminatorLongValue()
         {
             var document = GetMappingDocument("Subclass.CheckDiscriminatorLongValue.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             Assert.AreEqual(321L, subClassMapping.DiscriminatorValue);
         }
@@ -683,7 +394,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassNoJoinSchema()
         {
             var document = GetMappingDocument("Subclass.CheckNoJoinSchema.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var schemaName = subClassMapping.Join.Schema;
             Assert.IsNull(schemaName);
@@ -693,7 +404,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassJoinTableName()
         {
             var document = GetMappingDocument("Subclass.CheckJoinAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var tableName = subClassMapping.Join.Name;
             Assert.AreEqual("rectangles", tableName);
@@ -703,7 +414,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassJoinSchemaName()
         {
             var document = GetMappingDocument("Subclass.CheckJoinAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var schemaName = subClassMapping.Join.Schema;
             Assert.AreEqual("test_dbm", schemaName);
@@ -721,7 +432,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckJoinNoColumnJoinSchema()
         {
             var document = GetMappingDocument("Subclass.CheckJoinNoColumnJoinSchema.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var columnJoin = subClassMapping.Join.ColumnJoins.First();
             Assert.IsNull(columnJoin.JoinSchema);
@@ -731,7 +442,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckJoinNoColumnJoinTable()
         {
             var document = GetMappingDocument("Subclass.CheckJoinNoColumnJoinTable.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var columnJoin = subClassMapping.Join.ColumnJoins.First();
             Assert.IsNull(columnJoin.JoinTable);
@@ -749,7 +460,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassJoinColumnName()
         {
             var document = GetMappingDocument("Subclass.CheckJoinColumnAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var columnJoin = subClassMapping.Join.ColumnJoins.First();
             Assert.AreEqual("rectangle_id", columnJoin.Name);
@@ -759,7 +470,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassJoinColumnJoinSchema()
         {
             var document = GetMappingDocument("Subclass.CheckJoinColumnAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var columnJoin = subClassMapping.Join.ColumnJoins.First();
             Assert.AreEqual("test_dbm", columnJoin.JoinSchema);
@@ -769,7 +480,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassJoinColumnJoinTable()
         {
             var document = GetMappingDocument("Subclass.CheckJoinColumnAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var columnJoin = subClassMapping.Join.ColumnJoins.First();
             Assert.AreEqual("shapes", columnJoin.JoinTable);
@@ -779,7 +490,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassJoinColumnJoinColumn()
         {
             var document = GetMappingDocument("Subclass.CheckJoinColumnAttributes.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var columnJoin = subClassMapping.Join.ColumnJoins.First();
             Assert.AreEqual("id", columnJoin.JoinColumn);
@@ -789,7 +500,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassSubclass()
         {
             var document = GetMappingDocument("Subclass.CheckSubclassSubclass.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var subSubClassMapping = subClassMapping.SubClasses.First();
             Assert.AreEqual(typeof(Rectangle), subSubClassMapping.Type);
@@ -799,7 +510,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Test.TableMapping
         public void CheckSubclassProperties()
         {
             var document = GetMappingDocument("Subclass.CheckSubclassProperties.xml");
-            var mapping = (ITableMapping)MappingFactory.CreateMapping(document);
+            var mapping = (IViewMapping)MappingFactory.CreateMapping(document);
             var subClassMapping = mapping.SubClasses.First();
             var properties = subClassMapping.Properties;
             Assert.AreEqual(1, properties.Count);

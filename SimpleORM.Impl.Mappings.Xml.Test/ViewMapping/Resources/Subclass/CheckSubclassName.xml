@@ -1,0 +1,9 @@
+﻿<view-mapping xmlns="urn:dbm-view-mapping">
+  <view schema="test_dbm" name="shapes" class="SimpleORM.Impl.Mappings.Xml.Test.ViewMapping.Model.Shape, SimpleORM.Impl.Mappings.Xml.Test">
+    <discriminator column="type" type="long"/>
+    
+    <property name="Id" column="id" />
+
+    <subclass name="SimpleORM.Impl.Mappings.Xml.Test.ViewMapping.Model.Rectangle, SimpleORM.Impl.Mappings.Xml.Test"/>
+  </view>
+</view-mapping>

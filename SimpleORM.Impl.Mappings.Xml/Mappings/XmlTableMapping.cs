@@ -48,7 +48,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
             if (xTable.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
                 if (Discriminator == null)
-                    throw new DocumentParseException("Cannot parse class discriminator value, unknown discriminator type");
+                    throw new DocumentParseException("Cannot parse table discriminator value, unknown discriminator type");
 
                 try
                 {
@@ -56,7 +56,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
                 }
                 catch (Exception ex)
                 {
-                    throw new DocumentParseException(string.Format("Cannot parse class discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, Discriminator.Type), ex);
+                    throw new DocumentParseException(string.Format("Cannot parse table discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, Discriminator.Type), ex);
                 }
             }
 

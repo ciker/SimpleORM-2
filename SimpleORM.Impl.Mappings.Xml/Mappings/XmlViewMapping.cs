@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using SimpleORM.Impl.Mappings.Xml.Exceptions;
 using SimpleORM.Impl.Mappings.Xml.Utils;
 using SimpleORM.Mappings;
 
@@ -45,7 +46,17 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
             XAttribute xDiscriminatorValue;
             if (xView.TryGetAttribute("discriminator-value", out xDiscriminatorValue))
             {
-                DiscriminatorValue = TypeUtils.ParseAs(Discriminator.Type, xDiscriminatorValue.Value);
+                if (Discriminator == null)
+                    throw new DocumentParseException("Cannot parse view discriminator value, unknown discriminator type");
+
+                try
+                {
+                    DiscriminatorValue = TypeUtils.ParseAs(Discriminator.Type, xDiscriminatorValue.Value);
+                }
+                catch (Exception ex)
+                {
+                    throw new DocumentParseException(string.Format("Cannot parse view discriminator value '{0}' as '{1}'", xDiscriminatorValue.Value, Discriminator.Type), ex);
+                }
             }
         }
 

@@ -45,7 +45,7 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
             }
 
             XElement xSubClassJoin;
-            if (xSubClass.TryGetElement(xNamespace + "xSubClass", out xSubClassJoin))
+            if (xSubClass.TryGetElement(xNamespace + "join", out xSubClassJoin))
             {
                 Join = new XmlSubClassJoin(xNamespace, xSubClassJoin);
             }
@@ -92,14 +92,20 @@ namespace SimpleORM.Impl.Mappings.Xml.Mappings
     {
         public XmlSubClassJoinColumn(XElement xSubClassJoinColumn)
         {
-            XAttribute xSchema;
-            if (xSubClassJoinColumn.TryGetAttribute("schema", out xSchema))
+            Name = xSubClassJoinColumn.Attribute("name").Value;
+
+            XAttribute xJoinSchema;
+            if (xSubClassJoinColumn.TryGetAttribute("join-schema", out xJoinSchema))
             {
-                JoinSchema = xSchema.Value;
+                JoinSchema = xJoinSchema.Value;
             }
 
-            Name = xSubClassJoinColumn.Attribute("name").Value;
-            JoinTable = xSubClassJoinColumn.Attribute("join-table").Value;
+            XAttribute xJoinTable;
+            if (xSubClassJoinColumn.TryGetAttribute("join-table", out xJoinTable))
+            {
+                JoinTable = xJoinTable.Value;
+            }
+
             JoinColumn = xSubClassJoinColumn.Attribute("join-column").Value;
         }
 

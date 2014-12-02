@@ -31,8 +31,6 @@
     <xs:attribute name="name" type="xs:string" use="required"/>
     <xs:attribute name="column" type="xs:string" use="required"/>
     <xs:attribute name="converter" type="xs:string" use="optional"/>
-    <xs:attribute name="update" type="xs:boolean" use="optional"/>
-    <xs:attribute name="insert" type="xs:boolean" use="optional"/>
   </xs:complexType>
 
   <xs:complexType name="discriminator-type">

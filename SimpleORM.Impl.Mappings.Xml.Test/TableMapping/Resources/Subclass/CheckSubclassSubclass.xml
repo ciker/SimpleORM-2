@@ -1,0 +1,12 @@
+﻿<table-mapping xmlns="urn:dbm-table-mapping">
+  <table schema="test_dbm" name="shapes" class="SimpleORM.Impl.Mappings.Xml.Test.TableMapping.Model.Shape, SimpleORM.Impl.Mappings.Xml.Test">
+    <discriminator column="type" type="long"/>
+    
+    <property name="Id" column="id" />
+
+    <subclass name="SimpleORM.Impl.Mappings.Xml.Test.TableMapping.Model.TwoDimensionalShape, SimpleORM.Impl.Mappings.Xml.Test">
+      <subclass name="SimpleORM.Impl.Mappings.Xml.Test.TableMapping.Model.Rectangle, SimpleORM.Impl.Mappings.Xml.Test">
+      </subclass>
+    </subclass>
+  </table>
+</table-mapping>

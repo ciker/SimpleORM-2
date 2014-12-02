@@ -1,0 +1,11 @@
+﻿<view-mapping xmlns="urn:dbm-view-mapping">
+  <view schema="test_dbm" name="shapes" class="SimpleORM.Impl.Mappings.Xml.Test.ViewMapping.Model.Shape, SimpleORM.Impl.Mappings.Xml.Test">
+    <property name="Id" column="id" />
+
+    <subclass name="SimpleORM.Impl.Mappings.Xml.Test.ViewMapping.Model.Rectangle, SimpleORM.Impl.Mappings.Xml.Test">
+      <join schema="test_dbm" table="rectangle">
+        <column  join-schema="test_dbm" join-table="shape" join-column="id"/>
+      </join>
+    </subclass>
+  </view>
+</view-mapping>
